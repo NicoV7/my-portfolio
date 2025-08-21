@@ -7,7 +7,7 @@ interface ImageScrollerProps {
   folder: string;
 }
 
-const ImageScroller: React.FC<ImageScrollerProps> = ({ cloudName, folder }) => {
+const ImageScroller: React.FC<ImageScrollerProps> = ({ folder }) => {
   const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
