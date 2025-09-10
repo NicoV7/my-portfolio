@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ProjectFilter, ProjectSort } from '../../types/project'
+import { ProjectFilter, ProjectSort, ProjectCategory, ProjectStatus } from '../../types/project'
 import { getAllCategories, getAllTechnologies } from '../../data/projects'
 
 type ProjectFiltersProps = {
@@ -28,9 +28,9 @@ export default function ProjectFilters({
 
   const handleCategoryToggle = (category: string) => {
     const currentCategories = filters.category || []
-    const newCategories = currentCategories.includes(category as any)
+    const newCategories = currentCategories.includes(category as ProjectCategory)
       ? currentCategories.filter(c => c !== category)
-      : [...currentCategories, category as any]
+      : [...currentCategories, category as ProjectCategory]
     
     onFiltersChange({ ...filters, category: newCategories.length > 0 ? newCategories : undefined })
   }
@@ -46,9 +46,9 @@ export default function ProjectFilters({
 
   const handleStatusToggle = (status: string) => {
     const currentStatus = filters.status || []
-    const newStatus = currentStatus.includes(status as any)
+    const newStatus = currentStatus.includes(status as ProjectStatus)
       ? currentStatus.filter(s => s !== status)
-      : [...currentStatus, status as any]
+      : [...currentStatus, status as ProjectStatus]
     
     onFiltersChange({ ...filters, status: newStatus.length > 0 ? newStatus : undefined })
   }
@@ -146,7 +146,7 @@ export default function ProjectFilters({
                     <label key={category} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={filters.category?.includes(category as any) || false}
+                        checked={filters.category?.includes(category as ProjectCategory) || false}
                         onChange={() => handleCategoryToggle(category)}
                         className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                       />
@@ -166,7 +166,7 @@ export default function ProjectFilters({
                     <label key={status} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={filters.status?.includes(status as any) || false}
+                        checked={filters.status?.includes(status as ProjectStatus) || false}
                         onChange={() => handleStatusToggle(status)}
                         className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
                       />

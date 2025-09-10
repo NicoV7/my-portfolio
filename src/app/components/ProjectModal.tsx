@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Project } from '../../types/project'
 
 type ProjectModalProps = {
@@ -12,8 +12,6 @@ type ProjectModalProps = {
 
 export default function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [showImageGallery, setShowImageGallery] = useState(false)
 
   // Close on ESC key press
   useEffect(() => {

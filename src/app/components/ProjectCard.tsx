@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useRef, useEffect } from 'react'
 import { Project } from '../../types/project'
 
 type ProjectCardProps = {
@@ -29,41 +28,6 @@ const categoryColors = {
 }
 
 export default function ProjectCard({ project, onClick, index }: ProjectCardProps) {
-  const [mediaError, setMediaError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Auto-play video when component mounts
-    if (videoRef.current && project.previewMedia?.type === 'video') {
-      videoRef.current.play().catch(() => {
-        // Ignore autoplay errors (browser policy)
-      })
-    }
-  }, [])
-
-  const handleMediaError = (error: any) => {
-    console.error('Failed to load project media:', error)
-    setMediaError(true)
-    setIsLoading(false)
-  }
-
-  const handleMediaLoad = () => {
-    setIsLoading(false)
-  }
-
-  const handleMouseEnter = () => {
-    if (videoRef.current && project.previewMedia?.type === 'video') {
-      videoRef.current.play().catch(() => {})
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (videoRef.current && project.previewMedia?.type === 'video') {
-      videoRef.current.pause()
-    }
-  }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -72,86 +36,8 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
     }
   }
 
-  const renderMedia = () => {
-    // Show fallback or placeholder if there's an error or no media
-    if (mediaError || !project.previewMedia) {
-      if (project.previewMedia?.fallbackImage) {
-        return (
-          <img
-            src={project.previewMedia.fallbackImage}
-            alt={`Fallback preview for ${project.title}`}
-            className="w-full h-full object-cover"
-            data-testid="project-media-fallback"
-          />
-        )
-      }
-      
-      return (
-        <div 
-          className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center"
-          data-testid="project-media-placeholder"
-        >
-          <div className="text-white text-6xl font-bold opacity-50">
-            {project.title.charAt(0)}
-          </div>
-        </div>
-      )
-    }
-
-    // Render based on media type
-    switch (project.previewMedia.type) {
-      case 'video':
-        return (
-          <>
-            <video
-              ref={videoRef}
-              src={project.previewMedia.url}
-              className="w-full h-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              disablePictureInPicture
-              onError={handleMediaError}
-              onLoadedData={handleMediaLoad}
-              aria-label={`Project preview video for ${project.title}`}
-              role="img"
-              data-testid="project-media-video"
-            />
-          </>
-        )
-
-      case 'gif':
-        return (
-          <img
-            src={project.previewMedia.url}
-            alt={`Animated preview for ${project.title}`}
-            className="w-full h-full object-cover"
-            onError={handleMediaError}
-            onLoad={handleMediaLoad}
-            data-testid="project-media-gif"
-          />
-        )
-
-      case 'image':
-      default:
-        return (
-          <img
-            src={project.previewMedia.url}
-            alt={`Preview image for ${project.title}`}
-            className="w-full h-full object-cover"
-            onError={handleMediaError}
-            onLoad={handleMediaLoad}
-            data-testid="project-media-image"
-          />
-        )
-    }
-  }
-
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -161,60 +47,29 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
       }}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       tabIndex={0}
       role="button"
       aria-label={`View details for ${project.title}`}
       className="group cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
       data-testid="project-card"
     >
-      {/* Media Preview */}
-      <div 
-        className="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
-        data-testid="project-media-container"
-      >
-        {renderMedia()}
-        
-        {/* Loading Indicator */}
-        {isLoading && !mediaError && project.previewMedia && (
-          <div 
-            className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse flex items-center justify-center"
-            data-testid="project-media-loading"
-          >
-            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-        
-        {/* Featured Badge */}
-        {project.featured && (
-          <div className="absolute top-3 right-3">
-            <div className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
-              ⭐ Featured
-            </div>
-          </div>
-        )}
-        
+      <div className="relative px-6 pt-6">
         {/* Status Badge */}
-        <div className="absolute top-3 left-3">
+        <div className="mb-3">
           <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${statusColors[project.status]}`}>
             {project.status.replace('-', ' ')}
           </span>
         </div>
         
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-          <div className="transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <div className="bg-white dark:bg-gray-900 px-4 py-2 rounded-lg shadow-lg">
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                View Details
-              </span>
+        {/* Featured Badge */}
+        {project.featured && (
+          <div className="absolute top-6 right-6">
+            <div className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
+              ⭐ Featured
             </div>
           </div>
-        </div>
+        )}
       </div>
-      
-      {/* Card Content */}
       <div className="p-6">
         {/* Title and Category */}
         <div className="flex items-start justify-between mb-3">

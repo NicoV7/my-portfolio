@@ -58,7 +58,6 @@ export interface Project {
   
   // Visual Assets
   images: ProjectImage[]
-  thumbnailImage: string // URL to main thumbnail
   heroImage?: string // URL to hero/banner image
   previewMedia?: PreviewMedia // Video/GIF preview for cards
   

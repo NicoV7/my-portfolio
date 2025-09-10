@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run:*)",
+      "Bash(curl:*)",
+      "Read(/C:\\my-portfolio\\src\\app\\components/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

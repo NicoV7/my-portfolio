@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { projects as allProjects } from '../data/projects'
-import { Project, ProjectFilter, ProjectSort } from '../types/project'
+import { ProjectFilter, ProjectSort } from '../types/project'
 
 export function useProjects() {
   const [filters, setFilters] = useState<ProjectFilter>({})

@@ -10,9 +10,9 @@ import { ProjectFilter, ProjectSort } from '../../types/project'
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: React.ComponentProps<'div'>) => <div {...props}>{children}</div>,
   },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
+  AnimatePresence: ({ children }: React.PropsWithChildren) => <>{children}</>,
 }))
 
 // Mock data functions
@@ -334,8 +334,6 @@ describe('ProjectFilters Component', () => {
       render(<ProjectFilters {...mockProps} />)
       
       const sortSelect = screen.getByLabelText('Sort by:')
-      const featuredButton = screen.getByText('⭐ Featured Only')
-      const advancedButton = screen.getByText('Advanced Filters')
       
       // Tab navigation should work
       sortSelect.focus()

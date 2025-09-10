@@ -3,7 +3,7 @@
  */
 import { renderHook, act } from '@testing-library/react'
 import { useProjects } from '../../hooks/useProjects'
-import { ProjectFilter, ProjectSort } from '../../types/project'
+// Types are used in the test descriptions and assertions
 
 // Mock the projects data
 jest.mock('../../data/projects', () => ({
@@ -26,7 +26,6 @@ jest.mock('../../data/projects', () => ({
       },
       primaryTech: ['React', 'TypeScript'],
       images: [],
-      thumbnailImage: '/test-thumb.jpg',
       links: [],
       features: [],
       tags: ['react', 'testing'],
@@ -49,7 +48,6 @@ jest.mock('../../data/projects', () => ({
       },
       primaryTech: ['Vue.js', 'Ionic'],
       images: [],
-      thumbnailImage: '/test-thumb-2.jpg',
       links: [],
       features: [],
       tags: ['vue', 'mobile'],
@@ -73,7 +71,6 @@ jest.mock('../../data/projects', () => ({
       },
       primaryTech: ['Python'],
       images: [],
-      thumbnailImage: '/test-thumb-3.jpg',
       links: [],
       features: [],
       tags: ['python', 'library', 'open-source'],

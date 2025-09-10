@@ -40,6 +40,7 @@ export default function ProjectsPage() {
     <AnimatedPageWrapper>
       <main className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
+
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -51,7 +52,7 @@ export default function ProjectsPage() {
               My Projects
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              A collection of projects I've built, ranging from web applications to open-source libraries. 
+              A collection of projects I&apos;ve built, ranging from web applications to open-source libraries. 
               Each project represents a learning journey and showcases different technologies and problem-solving approaches.
             </p>
           </motion.div>
@@ -132,7 +133,7 @@ export default function ProjectsPage() {
                     No projects found
                   </h3>
                   <p className="text-gray-500 dark:text-gray-400 mb-4">
-                    Try adjusting your search terms or filters to find what you're looking for.
+                    Try adjusting your search terms or filters to find what you&apos;re looking for.
                   </p>
                   <button
                     onClick={clearFilters}
