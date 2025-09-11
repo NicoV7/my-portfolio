@@ -262,6 +262,132 @@ export const projects: Project[] = [
   myRole: 'Full-Stack Developer — Frontend & Security Implementation',
   clientType: 'personal',
   displayOrder: 4
+},
+{
+  id: '5',
+  slug: 'ccao-housing-predictor',
+  title: 'Cook County Housing Price Predictor',
+  shortDescription: 'Linear regression model predicting housing prices in Cook County with fairness analysis for property tax assessments.',
+  fullDescription: `A comprehensive data science project that builds linear regression models to predict housing prices in Cook County, Illinois. 
+  The project analyzes data from the Cook County Assessor's Office (CCAO) to understand property valuation and explores the critical 
+  implications of statistical modeling in property taxation, particularly regarding racial discrimination and fairness in assessments. 
+  Through systematic feature engineering and model evaluation, achieved training RMSE of ~159,702, meeting production-ready thresholds 
+  while addressing ethical considerations in algorithmic decision-making for government applications.`,
+  status: 'completed',
+  category: 'AI-ML',
+  featured: true,
+  
+  startDate: '2023-03-01',
+  endDate: '2023-03-23',
+  lastUpdated: '2023-03-23',
+  
+  technologies: {
+    frontend: [],
+    backend: ['Python'],
+    database: [],
+    deployment: [],
+    tools: ['Jupyter Notebook', 'pandas', 'scikit-learn', 'matplotlib', 'seaborn', 'numpy']
+  },
+  primaryTech: ['Python', 'scikit-learn', 'pandas', 'Linear Regression'],
+  
+  images: [],
+  
+  links: [
+    { type: 'github', url: 'https://github.com/NicoV7/AI-ML-CCAO-Housing-Price', label: 'GitHub Repository' }
+  ],
+  
+  features: [
+    { title: 'Linear Regression Modeling', description: 'Built multiple linear regression models with systematic feature selection', implemented: true },
+    { title: 'Feature Engineering Pipeline', description: 'Implemented data preprocessing using pandas.pipe for scalable transformations', implemented: true },
+    { title: 'Model Performance Optimization', description: 'Achieved training RMSE <200k through outlier removal and feature selection', implemented: true },
+    { title: 'Fairness Analysis', description: 'Analyzed model bias and discrimination patterns in property assessments', implemented: true },
+    { title: 'Train-Validation Split', description: 'Proper 80/20 data splitting with robust evaluation methodology', implemented: true },
+    { title: 'Residual Analysis', description: 'Comprehensive error analysis and model diagnostic evaluation', implemented: true }
+  ],
+  
+  challenges: [
+    'Balancing model accuracy with fairness considerations in property tax assessments',
+    'Feature selection from 62+ variables while avoiding overfitting',
+    'Addressing ethical implications of algorithmic bias in government applications',
+    'Meeting strict RMSE performance thresholds for real-world deployment'
+  ],
+  
+  learnings: [
+    'Applied linear regression to real-world government data with social justice implications',
+    'Gained experience with feature engineering pipelines using pandas and scikit-learn',
+    'Learned to evaluate model fairness beyond accuracy metrics in sensitive applications',
+    'Developed understanding of property valuation and tax assessment methodologies',
+    'Practiced systematic model validation and performance optimization techniques'
+  ],
+  
+  tags: ['Data Science', 'Linear Regression', 'Property Valuation', 'Fairness in ML', 'Government Data'],
+  teamSize: 1,
+  myRole: 'Data Scientist',
+  clientType: 'UC Berkeley',
+  displayOrder: 5
+},
+{
+  id: '6',
+  slug: 'spam-email-classifier',
+  title: 'Email Spam Classification System',
+  shortDescription: 'Logistic regression classifier achieving 90.6% accuracy in spam detection through advanced feature engineering.',
+  fullDescription: `A machine learning project implementing an email spam classifier using logistic regression with sophisticated feature 
+  engineering techniques. The system analyzes email content to distinguish spam from legitimate emails, achieving 90.6% training 
+  accuracy through careful selection of discriminative features. The project involved systematic analysis of word frequencies, 
+  HTML content patterns, and punctuation usage to identify the most effective spam indicators. Built with a focus on understanding 
+  the trade-offs between false positives (important emails filtered) and false negatives (spam reaching inbox) in real-world applications.`,
+  status: 'completed',
+  category: 'AI-ML',
+  featured: true,
+  
+  startDate: '2023-04-01',
+  endDate: '2023-04-30',
+  lastUpdated: '2023-04-30',
+  
+  technologies: {
+    frontend: [],
+    backend: ['Python'],
+    database: [],
+    deployment: [],
+    tools: ['Jupyter Notebook', 'pandas', 'scikit-learn', 'matplotlib', 'seaborn', 'numpy']
+  },
+  primaryTech: ['Python', 'scikit-learn', 'Logistic Regression', 'NLP'],
+  
+  images: [],
+  
+  links: [
+    { type: 'github', url: 'https://github.com/NicoV7/AI-ML-Spam-And-Ham-Classifier', label: 'GitHub Repository' }
+  ],
+  
+  features: [
+    { title: 'Logistic Regression Classifier', description: 'Implemented binary classification with 90.6% accuracy on training data', implemented: true },
+    { title: 'Advanced Feature Engineering', description: 'Created 60 discriminative features from text analysis and domain knowledge', implemented: true },
+    { title: 'Text Processing Pipeline', description: 'Built words_in_texts() function for efficient binary feature extraction', implemented: true },
+    { title: 'Frequency Analysis', description: 'Systematic analysis of word frequencies between spam and legitimate emails', implemented: true },
+    { title: 'HTML Content Detection', description: 'Identified HTML tags and formatting as strong spam indicators', implemented: true },
+    { title: 'ROC Curve Analysis', description: 'Comprehensive evaluation of classification performance across thresholds', implemented: true }
+  ],
+  
+  challenges: [
+    'Balancing false positive vs false negative rates for optimal user experience',
+    'Feature selection from thousands of potential words to avoid overfitting',
+    'Handling class imbalance and ensuring robust validation methodology',
+    'Identifying discriminative features while avoiding dataset-specific biases'
+  ],
+  
+  learnings: [
+    'Applied logistic regression to text classification with systematic feature engineering',
+    'Learned to evaluate classification models using multiple metrics beyond accuracy',
+    'Gained experience with text preprocessing and natural language processing techniques',
+    'Developed understanding of spam detection challenges and real-world trade-offs',
+    'Practiced systematic approach to feature selection and model validation'
+  ],
+  
+  tags: ['Machine Learning', 'Classification', 'NLP', 'Feature Engineering', 'Email Security'],
+  teamSize: 1,
+  myRole: 'Machine Learning Engineer',
+  clientType: 'UC Berkeley',
+  displayOrder: 6
 }
 
 ]
