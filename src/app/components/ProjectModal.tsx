@@ -91,7 +91,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           aria-labelledby="modal-title"
           aria-describedby="modal-desc"
           tabIndex={-1}
-          className="bg-white dark:bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl outline-none"
+          className="bg-white dark:bg-gray-900 night:bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl outline-none"
         >
           {/* Close Button */}
           <button
@@ -120,7 +120,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
             <div className="mb-6">
               <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                 <div className="flex-1">
-                  <h2 id="modal-title" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h2 id="modal-title" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white night:text-white mb-2">
                     {project.title}
                   </h2>
                   <div className="flex flex-wrap gap-2 mb-3">
@@ -128,7 +128,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                       project.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
                       project.status === 'in-progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
                       project.status === 'planned' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                      'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                      'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 night:bg-gray-700 night:text-gray-100'
                     }`}>
                       {project.status.replace('-', ' ')}
                     </span>
@@ -145,7 +145,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
               </div>
               
               {/* Project dates */}
-              <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400 night:text-gray-300 mb-4">
                 {project.endDate ? (
                   <span>{new Date(project.startDate).toLocaleDateString()} - {new Date(project.endDate).toLocaleDateString()}</span>
                 ) : (
@@ -162,22 +162,22 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
 
             {/* Description */}
             <div className="mb-8">
-              <p id="modal-desc" className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+              <p id="modal-desc" className="text-gray-700 dark:text-gray-300 night:text-gray-200 leading-relaxed text-lg">
                 {project.fullDescription}
               </p>
             </div>
 
             {/* Technology Stack */}
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Technology Stack</h3>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white night:text-white mb-4">Technology Stack</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Object.entries(project.technologies).map(([category, techs]) => (
                   techs && techs.length > 0 && (
                     <div key={category} className="">
-                      <h4 className="font-medium text-gray-700 dark:text-gray-300 capitalize mb-2">{category.replace(/([A-Z])/g, ' $1').trim()}</h4>
+                      <h4 className="font-medium text-gray-700 dark:text-gray-300 night:text-gray-200 capitalize mb-2">{category.replace(/([A-Z])/g, ' $1').trim()}</h4>
                       <div className="flex flex-wrap gap-2">
                         {techs.map((tech) => (
-                          <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-sm">
+                          <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-700 dark:text-gray-300 night:text-gray-200 rounded-md text-sm">
                             {tech}
                           </span>
                         ))}
@@ -191,18 +191,18 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
             {/* Features */}
             {project.features && project.features.length > 0 && (
               <div className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Features</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white night:text-white mb-4">Features</h3>
                 <div className="space-y-3">
                   {project.features.map((feature, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm ${
-                        feature.implemented ? 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400' : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500'
+                        feature.implemented ? 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400 night:bg-green-800 night:text-green-200' : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500 night:bg-gray-800 night:text-gray-400'
                       }`}>
                         {feature.implemented ? '✓' : '○'}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 dark:text-white">{feature.title}</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
+                        <h4 className="font-medium text-gray-900 dark:text-white night:text-white">{feature.title}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-300">{feature.description}</p>
                       </div>
                     </div>
                   ))}
@@ -214,12 +214,12 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               {project.challenges && project.challenges.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Challenges</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white night:text-white mb-4">Challenges</h3>
                   <ul className="space-y-2">
                     {project.challenges.map((challenge, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <span className="flex-shrink-0 w-2 h-2 bg-red-400 rounded-full mt-2"></span>
-                        <span className="text-gray-600 dark:text-gray-400 text-sm">{challenge}</span>
+                        <span className="text-gray-600 dark:text-gray-400 night:text-gray-300 text-sm">{challenge}</span>
                       </li>
                     ))}
                   </ul>
@@ -228,12 +228,12 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
               
               {project.learnings && project.learnings.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Key Learnings</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white night:text-white mb-4">Key Learnings</h3>
                   <ul className="space-y-2">
                     {project.learnings.map((learning, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <span className="flex-shrink-0 w-2 h-2 bg-blue-400 rounded-full mt-2"></span>
-                        <span className="text-gray-600 dark:text-gray-400 text-sm">{learning}</span>
+                        <span className="text-gray-600 dark:text-gray-400 night:text-gray-300 text-sm">{learning}</span>
                       </li>
                     ))}
                   </ul>

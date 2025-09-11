@@ -21,11 +21,20 @@ function ThemeInitScript() {
             try {
               const theme = localStorage.getItem('theme');
               const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              if (theme === 'dark' || (!theme && prefersDark)) {
-                document.documentElement.classList.add('dark');
-              } else {
-                document.documentElement.classList.remove('dark');
+              const html = document.documentElement;
+              
+              // Remove any existing theme classes
+              html.classList.remove('dark', 'night');
+              
+              // Apply the appropriate theme
+              if (theme === 'dark') {
+                html.classList.add('dark');
+              } else if (theme === 'night') {
+                html.classList.add('night');
+              } else if (!theme && prefersDark) {
+                html.classList.add('dark');
               }
+              // If theme is 'light' or no preference, use default (no classes)
             } catch (_) {}
           })();
         `,
@@ -37,7 +46,7 @@ function ThemeInitScript() {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white text-black dark:bg-gray-900 dark:text-white`} suppressHydrationWarning>
+      <body className={`${inter.className} bg-white text-black dark:bg-slate-800 dark:text-white night:bg-black night:text-white transition-colors duration-300`} suppressHydrationWarning>
         <ThemeInitScript />
         <ThemeToggle />
         <AnimatedPageWrapper>{children}</AnimatedPageWrapper>

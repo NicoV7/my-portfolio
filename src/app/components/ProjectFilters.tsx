@@ -58,20 +58,20 @@ export default function ProjectFilters({
   )
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 night:bg-gray-900 border border-gray-200 dark:border-gray-700 night:border-gray-700 rounded-xl p-4 mb-6">
       {/* Filter Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-4">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white night:text-white">
             Filters
           </h3>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-sm text-gray-500 dark:text-gray-400 night:text-gray-300">
             {resultsCount} project{resultsCount !== 1 ? 's' : ''}
           </span>
           {hasActiveFilters && (
             <button
               onClick={onClear}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-sm text-blue-600 dark:text-blue-400 night:text-orange-400 hover:underline"
             >
               Clear all
             </button>
@@ -80,14 +80,14 @@ export default function ProjectFilters({
         
         {/* Sort */}
         <div className="flex items-center gap-2">
-          <label htmlFor="sort" className="text-sm text-gray-600 dark:text-gray-400">
+          <label htmlFor="sort" className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-300">
             Sort by:
           </label>
           <select
             id="sort"
             value={sort}
             onChange={(e) => onSortChange(e.target.value as ProjectSort)}
-            className="px-3 py-1 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-3 py-1 bg-gray-50 dark:bg-gray-700 night:bg-gray-800 border border-gray-200 dark:border-gray-600 night:border-gray-600 rounded-md text-sm text-gray-900 dark:text-white night:text-white focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:border-transparent"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -104,8 +104,8 @@ export default function ProjectFilters({
           onClick={() => onFiltersChange({ ...filters, featured: !filters.featured })}
           className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
             filters.featured
-              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 night:bg-orange-600 night:text-white'
+              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 night:bg-gray-800 night:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 night:hover:bg-gray-700'
           }`}
         >
           ⭐ Featured Only
@@ -113,7 +113,7 @@ export default function ProjectFilters({
         
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors flex items-center gap-1"
+          className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 night:bg-orange-600 night:text-white rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 night:hover:bg-orange-700 transition-colors flex items-center gap-1"
         >
           Advanced Filters
           <svg 

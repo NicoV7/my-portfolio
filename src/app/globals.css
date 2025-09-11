@@ -1,6 +1,36 @@
 
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant night (&:where(.night, .night *));
+
+/* Theme CSS Custom Properties */
+:root {
+  /* Light mode (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+}
+
+.dark {
+  /* Dark mode - dark blue background */
+  --bg-primary: #1e293b;
+  --bg-secondary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --border-color: #475569;
+}
+
+.night {
+  /* Night mode - pure black OLED background */
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-accent: #f97316; /* Orange for emphasis */
+  --border-color: #333333;
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -12,12 +42,24 @@
   @apply bg-gray-100 dark:bg-gray-800;
 }
 
+.night ::-webkit-scrollbar-track {
+  @apply bg-black;
+}
+
 ::-webkit-scrollbar-thumb {
   @apply bg-gray-300 dark:bg-gray-600 rounded-full;
 }
 
+.night ::-webkit-scrollbar-thumb {
+  @apply bg-gray-700 rounded-full;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400 dark:bg-gray-500;
+}
+
+.night ::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
 }
 
 /* Line clamp utilities */

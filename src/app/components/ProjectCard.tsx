@@ -10,21 +10,22 @@ type ProjectCardProps = {
 }
 
 const statusColors = {
-  'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  'planned': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  'archived': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+  'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 night:bg-green-800 night:text-green-100',
+  'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 night:bg-blue-800 night:text-blue-100',
+  'planned': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 night:bg-yellow-700 night:text-yellow-100',
+  'archived': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 night:bg-gray-700 night:text-gray-100'
 }
 
 const categoryColors = {
-  'web-app': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-  'mobile': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
-  'desktop': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
-  'library': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
-  'api': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
-  'tool': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  'game': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-  'other': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+  'web-app': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 night:bg-purple-800 night:text-purple-100',
+  'mobile': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 night:bg-indigo-800 night:text-indigo-100',
+  'desktop': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200 night:bg-cyan-800 night:text-cyan-100',
+  'library': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 night:bg-pink-800 night:text-pink-100',
+  'api': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 night:bg-emerald-800 night:text-emerald-100',
+  'tool': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 night:bg-orange-800 night:text-orange-100',
+  'game': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 night:bg-red-800 night:text-red-100',
+  'graphics': 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 night:bg-teal-800 night:text-teal-100',
+  'other': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 night:bg-gray-700 night:text-gray-100'
 }
 
 export default function ProjectCard({ project, onClick, index }: ProjectCardProps) {
@@ -50,7 +51,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
       tabIndex={0}
       role="button"
       aria-label={`View details for ${project.title}`}
-      className="group cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+      className="group cursor-pointer bg-white dark:bg-gray-800 night:bg-gray-900 border border-gray-200 dark:border-gray-700 night:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 night:hover:border-gray-600 transition-all duration-300 focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 night:focus:ring-offset-black"
       data-testid="project-card"
     >
       <div className="relative px-6 pt-6">
@@ -64,7 +65,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
         {/* Featured Badge */}
         {project.featured && (
           <div className="absolute top-6 right-6">
-            <div className="bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold">
+            <div className="bg-yellow-400 text-yellow-900 night:bg-orange-500 night:text-white px-2 py-1 rounded-full text-xs font-semibold">
               ⭐ Featured
             </div>
           </div>
@@ -73,7 +74,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
       <div className="p-6">
         {/* Title and Category */}
         <div className="flex items-start justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white night:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 night:group-hover:text-orange-400 transition-colors duration-200 line-clamp-2">
             {project.title}
           </h3>
           <span className={`ml-3 px-2 py-1 rounded-full text-xs font-medium capitalize shrink-0 ${categoryColors[project.category]}`}>
@@ -82,7 +83,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
         </div>
         
         {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 mb-4 leading-relaxed">
+        <p className="text-gray-600 dark:text-gray-300 night:text-gray-200 text-sm line-clamp-2 mb-4 leading-relaxed">
           {project.shortDescription}
         </p>
         
@@ -91,13 +92,13 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
           {project.primaryTech.slice(0, 3).map((tech) => (
             <span 
               key={tech}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs font-medium"
+              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-700 dark:text-gray-300 night:text-gray-200 rounded text-xs font-medium"
             >
               {tech}
             </span>
           ))}
           {project.primaryTech.length > 3 && (
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded text-xs">
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-500 dark:text-gray-400 night:text-gray-300 rounded text-xs">
               +{project.primaryTech.length - 3} more
             </span>
           )}
@@ -109,7 +110,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
             {project.links.slice(0, 2).map((link, index) => (
               <div
                 key={`${link.type}-${index}`}
-                className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400"
+                className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 night:text-gray-300"
               >
                 {link.type === 'github' && (
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -133,7 +134,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
           
           {/* Date */}
           {project.endDate && (
-            <span className="text-xs text-gray-400 dark:text-gray-500">
+            <span className="text-xs text-gray-400 dark:text-gray-500 night:text-gray-400">
               {new Date(project.endDate).getFullYear()}
             </span>
           )}
