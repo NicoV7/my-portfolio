@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import AnimatedBackground from './components/AnimatedBackground'
 import AnimatedPageWrapper from './components/AnimatedPageWrapper'
+import TypewriterText from './components/TypewriterText'
 
 export default function Home() {
   return (
@@ -17,7 +18,12 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-5xl font-bold text-blue-600 dark:text-blue-400 night:text-orange-500"
         >
-          Nico Vega
+          <TypewriterText 
+            text="Nico Vega" 
+            speed={120}
+            delay={800}
+            cursor="|"
+          />
         </motion.h1>
 
         <motion.p
