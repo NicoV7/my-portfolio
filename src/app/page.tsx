@@ -23,18 +23,39 @@ export default function Home() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-4 text-xl text-gray-700 dark:text-gray-300 night:text-white"
         >
-          Full Stack Developer | UC Berkeley Alum
+          Full Stack Developer | UC Berkeley Computer Science Alumni
         </motion.p>
 
-        <motion.a
-          href="/projects"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-8 inline-block text-lg font-medium text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-300 night:bg-orange-600 night:hover:bg-orange-700 px-4 py-2 rounded-lg transition"
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <motion.a
+            href="/projects"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="text-lg font-medium text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-300 night:bg-orange-600 night:hover:bg-orange-700 px-6 py-3 rounded-lg transition"
+          >
+            View My Projects
+          </motion.a>
+          
+          <motion.a
+            href="/blog"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            className="text-lg font-medium text-blue-600 dark:text-blue-400 night:text-orange-500 hover:text-blue-700 dark:hover:text-blue-300 night:hover:text-orange-400 border-2 border-blue-600 dark:border-blue-400 night:border-orange-500 hover:border-blue-700 dark:hover:border-blue-300 night:hover:border-orange-400 px-6 py-3 rounded-lg transition"
+          >
+            Read My Blog
+          </motion.a>
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="mt-4 text-xl text-gray-700 dark:text-gray-300 night:text-white"
         >
-          View My Projects
-        </motion.a>
+          AI, Databases, Graphics, Security, and End-to-End Solutions
+        </motion.p>
       </div>
     </main>
   )

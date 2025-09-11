@@ -44,6 +44,34 @@ export default function ProjectsPage() {
         <AnimatedBackground variant="geometric" intensity="subtle" />
         <div className="relative z-20 container mx-auto px-4 py-8 max-w-7xl">
 
+          {/* Navigation */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mb-8"
+          >
+            <nav className="flex items-center justify-center gap-6">
+              <a 
+                href="/" 
+                className="text-gray-600 dark:text-gray-300 night:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 night:hover:text-orange-500 transition-colors duration-200"
+              >
+                Home
+              </a>
+              <span className="text-gray-400 dark:text-gray-600 night:text-gray-600">•</span>
+              <span className="text-blue-600 dark:text-blue-400 night:text-orange-500 font-medium">
+                Projects
+              </span>
+              <span className="text-gray-400 dark:text-gray-600 night:text-gray-600">•</span>
+              <a 
+                href="/blog" 
+                className="text-gray-600 dark:text-gray-300 night:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 night:hover:text-orange-500 transition-colors duration-200"
+              >
+                Blog
+              </a>
+            </nav>
+          </motion.div>
+
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
