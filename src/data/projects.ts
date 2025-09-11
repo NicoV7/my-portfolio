@@ -137,7 +137,133 @@ export const projects: Project[] = [
     myRole: 'Developer / Product Manager',
     clientType: 'UC Berkeley',
     displayOrder: 2
-  }
+  },
+  {
+  id: '3',
+  slug: 'secure-file-sharing',
+  title: 'End-to-End Encrypted File Sharing System',
+  shortDescription: 'Project 2 for UC Berkeley CS 161, Dropbox-like file sharing system built in Golang with end-to-end encryption and secure access controls.',
+  fullDescription: `Developed a secure client-side file sharing system in Golang as part of a Computer Security course project. 
+  The system applies cryptographic primitives to ensure confidentiality, integrity, and access control, such that the 
+  server cannot view or tamper with user data. Users can authenticate, save files, load, overwrite, append, share, 
+  and revoke file access securely. The design leverages a Keystore and Datastore backend, with cryptographic utilities 
+  provided by a custom userlib library. This project emphasized secure design principles, iterative testing, and 
+  building production-grade cryptographic workflows.`,
+  status: 'completed',
+  category: 'security',
+  featured: true,
+
+  startDate: '2025-02-01',
+  endDate: '2025-03-15',
+  lastUpdated: '2025-03-15',
+
+  technologies: {
+    frontend: [],
+    backend: ['Golang'],
+    database: ['Datastore (custom)', 'Keystore (custom)'],
+    deployment: [],
+    tools: ['userlib (crypto utilities)', 'Go testing framework']
+  },
+  primaryTech: ['Golang', 'Cryptography'],
+
+  images: [],
+
+  links: [
+    { type: 'github', url: 'https://github.com/cs161-students/fa23-proj2-nico-esha', label: 'GitHub Repository' }
+  ],
+
+  features: [
+    { title: 'User Authentication', description: 'Password-based login with cryptographically derived keys', implemented: true },
+    { title: 'File Storage & Retrieval', description: 'Securely save and load files from the server using symmetric encryption', implemented: true },
+    { title: 'File Overwrite & Append', description: 'Modify existing files or append securely without breaking confidentiality guarantees', implemented: true },
+    { title: 'Secure File Sharing', description: 'Grant access to other users with encrypted key exchange via Keystore', implemented: true },
+    { title: 'Access Revocation', description: 'Revoke access for shared users without exposing old file versions', implemented: true }
+  ],
+
+  challenges: [
+    'Designing a secure data model that satisfied confidentiality, integrity, and revocation requirements',
+    'Ensuring correctness of cryptographic key management between Keystore and Datastore',
+    'Debugging hidden test cases in the autograder and avoiding panics in Go'
+  ],
+
+  learnings: [
+    'Strengthened understanding of applied cryptography and key management',
+    'Learned to design before implementing — careful planning avoided security flaws',
+    'Gained practical experience writing secure Go code with crypto primitives',
+    'Improved testing/debugging strategies for security-sensitive applications'
+  ],
+
+  tags: ['Golang', 'Cryptography', 'Computer Security', 'E2E Encryption', 'File Sharing'],
+  teamSize: 2,
+  myRole: 'Developer in Test| Secure Design & Cryptography',
+  clientType: 'UC Berkeley',
+  displayOrder: 3
+}, 
+{
+  id: '4',
+  slug: 'collaborative-drawing-board',
+  title: 'Collaborative Drawing Platform',
+  shortDescription: 'Enterprise-grade real-time visual collaboration with end-to-end encryption and advanced file management.',
+  fullDescription: `A production-ready, scalable collaborative drawing application enabling secure, multi-user real-time drawing. 
+  The platform uses end-to-end AES-256-GCM encryption, CRDT-based conflict resolution, and a zero-trust security model. 
+  It supports template management, advanced file processing, and horizontal scalability for enterprise usage, with strict 
+  TDD methodology ensuring high reliability.`,
+  status: 'in-progress',
+  category: 'web-app',
+  featured: true,
+  
+  startDate: '2025-07-01',
+  endDate: undefined,
+  lastUpdated: '2025-08-25',
+  
+  technologies: {
+    frontend: ['React', 'TypeScript', 'Konva.js'],
+    backend: ['FastAPI', 'Python', 'Strawberry GraphQL'],
+    database: ['PostgreSQL', 'Redis', 'MinIO'],
+    deployment: ['Docker', 'Docker Compose', 'AWS ECS', 'Kubernetes'],
+    tools: ['Jest', 'Pytest', 'Cypress', 'Playwright', 'k6', 'Prometheus', 'Grafana']
+  },
+  primaryTech: ['React', 'TypeScript', 'FastAPI', 'Python'],
+  
+  images: [
+  ],
+  
+  links: [
+    { type: 'github', url: 'https://github.com/NicoV7/collaborative-drawing-board', label: 'GitHub Repository' },
+    { type: 'live', url: 'https://collab-drawing.example.com', label: 'Live Demo' }
+  ],
+  
+  features: [
+    { title: 'Real-Time Collaboration', description: 'Multi-user drawing with <16ms latency using CRDTs', implemented: true },
+    { title: 'End-to-End Encryption', description: 'AES-256-GCM with client-side key management', implemented: true },
+    { title: 'Template Library', description: 'Drag-and-drop uploads, auto-vectorization, and version control', implemented: true },
+    { title: 'Enterprise Security', description: 'Zero-trust model, audit logging, SSO support, GDPR/HIPAA compliance', implemented: true },
+    { title: 'High Performance & Scalability', description: 'Optimized rendering, caching, CDN integration, and horizontal scaling', implemented: true },
+    { title: 'TDD & Test Coverage', description: '95%+ coverage across unit, integration, E2E, performance, and security tests', implemented: true }
+  ],
+  
+  challenges: [
+    'Ensuring ultra-low latency for large multi-user boards while maintaining encryption',
+    'Integrating CRDT-based conflict-free collaboration with real-time rendering',
+    'Designing secure key management and end-to-end encryption for enterprise users',
+    'Maintaining test-driven development workflow across a complex full-stack architecture'
+  ],
+  
+  learnings: [
+    'Applied CRDT algorithms for conflict-free real-time collaboration',
+    'Implemented client-side encryption and zero-trust architecture for web applications',
+    'Optimized rendering pipelines for GPU performance and memory efficiency',
+    'Built enterprise-ready features including audit logging, SSO integration, and horizontal scaling',
+    'Designed a fully TDD-driven development workflow for a complex multi-layer system'
+  ],
+  
+  tags: ['React', 'TypeScript', 'Python', 'FastAPI', 'GraphQL', 'CRDT', 'E2E Encryption', 'Enterprise Software'],
+  teamSize: 1,
+  myRole: 'Full-Stack Developer — Frontend & Security Implementation',
+  clientType: 'personal',
+  displayOrder: 4
+}
+
 ]
 
 export const getProjectBySlug = (slug: string): Project | undefined => {

@@ -1,6 +1,6 @@
 export type ProjectStatus = 'completed' | 'in-progress' | 'planned' | 'archived'
 
-export type ProjectCategory = 'web-app' | 'mobile' | 'desktop' | 'library' | 'api' | 'tool' | 'game' | 'graphics' | 'other'
+export type ProjectCategory = 'web-app' | 'mobile' | 'desktop' | 'library' | 'api' | 'tool' | 'game' | 'graphics' | 'security' | 'other'
 
 export type TechnologyStack = {
   frontend?: string[]
