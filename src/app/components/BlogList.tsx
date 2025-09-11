@@ -125,7 +125,7 @@ export default function BlogList({
           className="text-center py-8"
         >
           <p className="text-gray-500 dark:text-gray-400 night:text-gray-400">
-            You've reached the end! Thanks for reading. 📚
+            You&apos;ve reached the end! Thanks for reading. 📚
           </p>
         </motion.div>
       )}

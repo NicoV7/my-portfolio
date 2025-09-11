@@ -82,9 +82,9 @@ export default function BlogSearchBar({
           <p className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-400">
             {resultsCount !== undefined ? (
               resultsCount === 0 ? (
-                <>No results found for <span className="font-medium">"{searchTerm}"</span></>
+                <>No results found for <span className="font-medium">&quot;{searchTerm}&quot;</span></>
               ) : (
-                <>Found <span className="font-medium">{resultsCount}</span> {resultsCount === 1 ? 'post' : 'posts'} for <span className="font-medium">"{searchTerm}"</span></>
+                <>Found <span className="font-medium">{resultsCount}</span> {resultsCount === 1 ? 'post' : 'posts'} for <span className="font-medium">&quot;{searchTerm}&quot;</span></>
               )
             ) : null}
           </p>

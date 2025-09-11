@@ -81,7 +81,7 @@ export function useBlogPosts(): UseBlogPostsReturn {
   // Initial load
   useEffect(() => {
     loadPosts(0, true)
-  }, [])
+  }, [loadPosts])
 
   // Debounced search
   useEffect(() => {
