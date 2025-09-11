@@ -58,20 +58,20 @@ export default function ProjectFilters({
   )
 
   return (
-    <div className="bg-white dark:bg-gray-800 night:bg-gray-950 border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-xl p-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 night:bg-black border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-xl p-4 mb-6">
       {/* Filter Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white night:text-white">
             Filters
           </h3>
-          <span className="text-sm text-gray-500 dark:text-gray-400 night:text-gray-300">
+          <span className="text-sm text-gray-500 dark:text-gray-400 night:text-gray-400">
             {resultsCount} project{resultsCount !== 1 ? 's' : ''}
           </span>
           {hasActiveFilters && (
             <button
               onClick={onClear}
-              className="text-sm text-blue-600 dark:text-blue-400 night:text-orange-400 hover:underline"
+              className="text-sm text-blue-600 dark:text-blue-400 night:text-orange-500 hover:underline"
             >
               Clear all
             </button>
@@ -80,14 +80,14 @@ export default function ProjectFilters({
         
         {/* Sort */}
         <div className="flex items-center gap-2">
-          <label htmlFor="sort" className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-300">
+          <label htmlFor="sort" className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-400">
             Sort by:
           </label>
           <select
             id="sort"
             value={sort}
             onChange={(e) => onSortChange(e.target.value as ProjectSort)}
-            className="px-3 py-1 bg-gray-50 dark:bg-gray-700 night:bg-gray-900 border border-gray-200 dark:border-gray-600 night:border-gray-700 rounded-md text-sm text-gray-900 dark:text-white night:text-white focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:border-transparent"
+            className="px-3 py-1 bg-gray-50 dark:bg-gray-700 night:bg-gray-800 border border-gray-200 dark:border-gray-600 night:border-gray-700 rounded-md text-sm text-gray-900 dark:text-white night:text-white focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:border-transparent"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -104,8 +104,8 @@ export default function ProjectFilters({
           onClick={() => onFiltersChange({ ...filters, featured: !filters.featured })}
           className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
             filters.featured
-              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 night:bg-orange-600 night:text-white'
-              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 night:bg-gray-900 night:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 night:hover:bg-gray-800'
+              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 night:bg-orange-900/30 night:text-orange-400'
+              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 night:bg-gray-800 night:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 night:hover:bg-gray-700'
           }`}
         >
           ⭐ Featured Only
@@ -113,7 +113,7 @@ export default function ProjectFilters({
         
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 night:bg-orange-600 night:text-white rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800 night:hover:bg-orange-700 transition-colors flex items-center gap-1"
+          className="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 night:bg-orange-900/30 night:text-orange-400 rounded-full text-sm font-medium hover:bg-blue-200 dark:hover:bg-blue-800/50 night:hover:bg-orange-900/40 transition-colors flex items-center gap-1"
         >
           Advanced Filters
           <svg 
@@ -137,10 +137,10 @@ export default function ProjectFilters({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4 border-t border-gray-200 dark:border-gray-700 night:border-gray-800">
               {/* Categories */}
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white mb-3">Categories</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white night:text-white mb-3">Categories</h4>
                 <div className="space-y-2">
                   {categories.map(category => (
                     <label key={category} className="flex items-center gap-2 cursor-pointer">
@@ -148,9 +148,9 @@ export default function ProjectFilters({
                         type="checkbox"
                         checked={filters.category?.includes(category as ProjectCategory) || false}
                         onChange={() => handleCategoryToggle(category)}
-                        className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 dark:border-gray-600 night:border-gray-700 text-blue-600 night:text-orange-500 focus:ring-blue-500 night:focus:ring-orange-500"
                       />
-                      <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-400 capitalize">
                         {category.replace('-', ' ')}
                       </span>
                     </label>
@@ -160,7 +160,7 @@ export default function ProjectFilters({
 
               {/* Status */}
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white mb-3">Status</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white night:text-white mb-3">Status</h4>
                 <div className="space-y-2">
                   {['completed', 'in-progress', 'planned', 'archived'].map(status => (
                     <label key={status} className="flex items-center gap-2 cursor-pointer">
@@ -168,9 +168,9 @@ export default function ProjectFilters({
                         type="checkbox"
                         checked={filters.status?.includes(status as ProjectStatus) || false}
                         onChange={() => handleStatusToggle(status)}
-                        className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 dark:border-gray-600 night:border-gray-700 text-blue-600 night:text-orange-500 focus:ring-blue-500 night:focus:ring-orange-500"
                       />
-                      <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-400 capitalize">
                         {status.replace('-', ' ')}
                       </span>
                     </label>
@@ -180,7 +180,7 @@ export default function ProjectFilters({
 
               {/* Technologies */}
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white mb-3">Technologies</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white night:text-white mb-3">Technologies</h4>
                 <div className="max-h-40 overflow-y-auto space-y-2">
                   {technologies.slice(0, 15).map(tech => (
                     <label key={tech} className="flex items-center gap-2 cursor-pointer">
@@ -188,9 +188,9 @@ export default function ProjectFilters({
                         type="checkbox"
                         checked={filters.technologies?.includes(tech) || false}
                         onChange={() => handleTechnologyToggle(tech)}
-                        className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 dark:border-gray-600 night:border-gray-700 text-blue-600 night:text-orange-500 focus:ring-blue-500 night:focus:ring-orange-500"
                       />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 night:text-gray-400">
                         {tech}
                       </span>
                     </label>
