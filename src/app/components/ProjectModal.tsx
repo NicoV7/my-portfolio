@@ -91,7 +91,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           aria-labelledby="modal-title"
           aria-describedby="modal-desc"
           tabIndex={-1}
-          className="bg-white dark:bg-gray-900 night:bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl outline-none"
+          className="bg-white dark:bg-gray-900 night:bg-gray-950 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl outline-none"
         >
           {/* Close Button */}
           <button
@@ -177,7 +177,7 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
                       <h4 className="font-medium text-gray-700 dark:text-gray-300 night:text-gray-200 capitalize mb-2">{category.replace(/([A-Z])/g, ' $1').trim()}</h4>
                       <div className="flex flex-wrap gap-2">
                         {techs.map((tech) => (
-                          <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-700 dark:text-gray-300 night:text-gray-200 rounded-md text-sm">
+                          <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-900 text-gray-700 dark:text-gray-300 night:text-gray-300 rounded-md text-sm">
                             {tech}
                           </span>
                         ))}

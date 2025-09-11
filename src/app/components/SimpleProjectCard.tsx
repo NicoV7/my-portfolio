@@ -32,7 +32,7 @@ export default function SimpleProjectCard({ project, onClick }: SimpleProjectCar
   return (
     <div
       onClick={onClick}
-      className="group cursor-pointer bg-white dark:bg-gray-800 night:bg-gray-900 border border-gray-200 dark:border-gray-700 night:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 night:hover:border-gray-600 transition-all duration-200"
+      className="group cursor-pointer bg-white dark:bg-gray-800 night:bg-gray-950 border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 night:hover:border-gray-700 transition-all duration-200"
     >
       {/* Header */}
       <div className="relative px-4 pt-4">
@@ -75,7 +75,7 @@ export default function SimpleProjectCard({ project, onClick }: SimpleProjectCar
           {project.primaryTech.slice(0, 3).map((tech) => (
             <span 
               key={tech}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-700 dark:text-gray-300 night:text-gray-200 rounded text-xs"
+              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-900 text-gray-700 dark:text-gray-300 night:text-gray-300 rounded text-xs"
             >
               {tech}
             </span>

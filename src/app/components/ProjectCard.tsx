@@ -52,7 +52,7 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
       tabIndex={0}
       role="button"
       aria-label={`View details for ${project.title}`}
-      className="group cursor-pointer bg-white dark:bg-gray-800 night:bg-gray-900 border border-gray-200 dark:border-gray-700 night:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 night:hover:border-gray-600 transition-all duration-300 focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 night:focus:ring-offset-black"
+      className="group cursor-pointer bg-white dark:bg-gray-800 night:bg-gray-950 border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600 night:hover:border-gray-700 transition-all duration-300 focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 night:focus:ring-offset-black"
       data-testid="project-card"
     >
       <div className="relative px-6 pt-6">
@@ -93,13 +93,13 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
           {project.primaryTech.slice(0, 3).map((tech) => (
             <span 
               key={tech}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-700 dark:text-gray-300 night:text-gray-200 rounded text-xs font-medium"
+              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-900 text-gray-700 dark:text-gray-300 night:text-gray-300 rounded text-xs font-medium"
             >
               {tech}
             </span>
           ))}
           {project.primaryTech.length > 3 && (
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-800 text-gray-500 dark:text-gray-400 night:text-gray-300 rounded text-xs">
+            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 night:bg-gray-900 text-gray-500 dark:text-gray-400 night:text-gray-400 rounded text-xs">
               +{project.primaryTech.length - 3} more
             </span>
           )}

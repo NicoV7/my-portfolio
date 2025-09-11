@@ -9,6 +9,7 @@ import ProjectModal from '../components/ProjectModal'
 import ProjectFilters from '../components/ProjectFilters'
 import ProjectSkeletonCard from '../components/ProjectSkeletonCard'
 import AnimatedPageWrapper from '../components/AnimatedPageWrapper'
+import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -39,8 +40,9 @@ export default function ProjectsPage() {
 
   return (
     <AnimatedPageWrapper>
-      <main className="min-h-screen bg-gray-50 dark:bg-gray-900 night:bg-black transition-colors duration-300">
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <main className="relative min-h-screen bg-gray-50 dark:bg-gray-900 night:bg-black transition-colors duration-300">
+        <AnimatedBackground variant="geometric" intensity="subtle" />
+        <div className="relative z-20 container mx-auto px-4 py-8 max-w-7xl">
 
           {/* Page Header */}
           <motion.div

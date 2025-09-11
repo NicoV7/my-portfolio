@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function DebugPage() {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false)
@@ -14,7 +15,9 @@ export default function DebugPage() {
   console.log('🔧 Debug Page URLs:', { thumbnailUrl, gifUrl })
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="relative min-h-screen bg-white dark:bg-gray-900 night:bg-black transition-colors duration-300">
+      <AnimatedBackground variant="code" intensity="subtle" />
+      <div className="relative z-10 container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-8">Image Loading Debug</h1>
       
       <div className="grid md:grid-cols-2 gap-8">
@@ -115,6 +118,7 @@ export default function DebugPage() {
       <div className="mt-8 text-xs text-gray-500">
         <p>📝 Open browser dev tools (F12) to see console logs</p>
         <p>🌐 Visit: http://localhost:3004/debug</p>
+      </div>
       </div>
     </div>
   )
