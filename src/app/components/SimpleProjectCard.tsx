@@ -24,6 +24,7 @@ const categoryColors = {
   'game': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 night:bg-red-800 night:text-red-100',
   'graphics': 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 night:bg-teal-800 night:text-teal-100',
   'security': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 night:bg-amber-800 night:text-amber-100',
+  'AI-ML': 'bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-200 night:bg-violet-800 night:text-violet-100',
   'other': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 night:bg-gray-700 night:text-gray-100'
 }
 
