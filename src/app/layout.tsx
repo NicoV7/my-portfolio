@@ -47,8 +47,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} bg-white text-black dark:bg-slate-800 dark:text-white night:bg-black night:text-white transition-colors duration-300`} suppressHydrationWarning>
         <ThemeInitScript />
-        <ThemeToggle />
-        {children}
+        <div className="relative">
+          <ThemeToggle />
+          {children}
+        </div>
       </body>
     </html>
   )

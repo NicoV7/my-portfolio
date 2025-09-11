@@ -29,7 +29,7 @@ export default function Home() {
           Full Stack Developer | UC Berkeley Computer Science Alumni
         </motion.p>
 
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 items-center justify-center">
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -37,7 +37,7 @@ export default function Home() {
           >
             <Link
               href="/projects"
-              className="text-lg font-medium text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-300 night:bg-orange-600 night:hover:bg-orange-700 px-6 py-3 rounded-lg transition"
+              className="text-lg font-medium text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-300 night:bg-orange-600 night:hover:bg-orange-700 px-6 py-3 rounded-lg transition w-full sm:w-auto text-center min-w-[160px]"
             >
               View My Projects
             </Link>
@@ -50,7 +50,7 @@ export default function Home() {
           >
             <Link
               href="/blog"
-              className="text-lg font-medium text-blue-600 dark:text-blue-400 night:text-orange-500 hover:text-blue-700 dark:hover:text-blue-300 night:hover:text-orange-400 border-2 border-blue-600 dark:border-blue-400 night:border-orange-500 hover:border-blue-700 dark:hover:border-blue-300 night:hover:border-orange-400 px-6 py-3 rounded-lg transition"
+              className="text-lg font-medium text-blue-600 dark:text-blue-400 night:text-orange-500 hover:text-blue-700 dark:hover:text-blue-300 night:hover:text-orange-400 border-2 border-blue-600 dark:border-blue-400 night:border-orange-500 hover:border-blue-700 dark:hover:border-blue-300 night:hover:border-orange-400 px-6 py-3 rounded-lg transition w-full sm:w-auto text-center min-w-[160px]"
             >
               Read My Blog
             </Link>

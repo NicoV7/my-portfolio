@@ -52,7 +52,7 @@ export default function ProjectsPage() {
             transition={{ duration: 0.4 }}
             className="mb-8"
           >
-            <nav className="flex items-center justify-center gap-6">
+            <nav className="flex items-center justify-center gap-4 sm:gap-6 px-4">
               <Link 
                 href="/" 
                 className="text-gray-600 dark:text-gray-300 night:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 night:hover:text-orange-500 transition-colors duration-200"

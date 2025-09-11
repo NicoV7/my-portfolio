@@ -59,7 +59,7 @@ export default function ThemeToggle() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-4 right-4 z-50 sm:top-20 sm:right-2 md:top-4 md:right-4">
       <select
         value={currentTheme}
         onChange={handleThemeChange}
@@ -67,14 +67,15 @@ export default function ThemeToggle() {
           bg-white dark:bg-slate-700 night:bg-black
           text-gray-900 dark:text-white night:text-white
           border border-gray-300 dark:border-slate-600 night:border-gray-600
-          rounded-lg px-3 py-2 pr-8
+          rounded-lg px-2 py-1 pr-6 sm:px-3 sm:py-2 sm:pr-8
+          text-sm sm:text-base
           focus:outline-none focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500
           transition-all duration-200
           cursor-pointer
           appearance-none
           bg-no-repeat
           bg-right
-          bg-[length:16px]
+          bg-[length:12px] sm:bg-[length:16px]
           bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQgNkw4IDEwTDEyIDYiIHN0cm9rZT0iIzZCNzI4MCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+')]
         "
       >
