@@ -75,6 +75,68 @@ export const projects: Project[] = [
     myRole: 'Lead Developer',
     clientType: 'personal',
     displayOrder: 1
+  },
+
+  {
+    id: '2',
+    slug: 'shaders-project',
+    title: 'Fractal Shaders Compilation',
+    shortDescription: 'UC Berkeley CS 184 Final Project — compilation of fractal-based shaders using C++ and OpenGL.',
+    fullDescription: `A collaborative final project for UC Berkeley’s Computer Graphics course (CS 184). 
+  We built a suite of shaders inspired by the Mandelbrot set and fractal geometry, progressively extending 
+  our base implementation with fog effects, phong lighting, and experimental fractal visuals. 
+  Using OpenGL and Shadertoy for iteration, we explored visual complexity, GPU performance trade-offs, 
+  and creative mathematical art.`,
+    status: 'completed',
+    category: 'graphics',
+    featured: true,
+    
+    startDate: '2025-03-31',
+    endDate: '2025-04-30',
+    lastUpdated: '2025-04-30',
+    
+    technologies: {
+      frontend: ['C++','OpenGL', 'GLSL'],
+      backend: [],
+      database: [],
+      deployment: ['Shadertoy'],
+      tools: ['Shadertoy','OpenGL']
+    },
+    primaryTech: ['C++','OpenGL', 'GLSL'],
+    
+    images: [],
+    
+    links: [
+      { type: 'live', url: 'https://www.shadertoy.com/view/lccXDj', label: 'Death of Our Sun Mandelbrot' },
+      { type: 'live', url: 'https://www.shadertoy.com/view/lccSW2', label: 'CALiflower' },
+      {type: 'live', url: 'https://www.shadertoy.com/view/XfcSD2', label: 'Phong + Fog'}
+    ],
+    
+    features: [
+      { title: 'Mandelbrot Base Shader', description: 'Implemented Mandelbrot fractal rendering with zoom & coloring', implemented: true },
+    { title: 'Fractal Variations', description: 'Explored visual complexity with CALiflower and other fractal variants', implemented: true },
+    { title: 'Phong Shading + Fog', description: 'Combined classic lighting models with fog for depth & atmosphere', implemented: true },
+    { title: 'Interactive Exploration', description: 'Enabled real-time tweaking of fractal parameters on Shadertoy', implemented: true }
+    ],
+    
+    challenges: [
+      'Optimizing shader performance to run smoothly on the GPU',
+      'Balancing mathematical accuracy with visually appealing aesthetics',
+      'Debugging GLSL shaders without standard debugging tools'
+    ],
+    
+    learnings: [
+      'Strengthened understanding of fractals and complex number mathematics',
+      'Hands-on experience writing shaders in GLSL and debugging rendering issues',
+      'Learned GPU performance profiling and optimization techniques',
+      'Gained deeper appreciation for the intersection of math and art in graphics programming'
+    ],
+    
+    tags: ['Computer Graphics', 'Shaders', 'Fractals', 'OpenGL', 'GLSL'],
+    teamSize: 4,
+    myRole: 'Developer / Product Manager',
+    clientType: 'UC Berkeley',
+    displayOrder: 2
   }
 ]
 

@@ -1,6 +1,6 @@
 export type ProjectStatus = 'completed' | 'in-progress' | 'planned' | 'archived'
 
-export type ProjectCategory = 'web-app' | 'mobile' | 'desktop' | 'library' | 'api' | 'tool' | 'game' | 'other'
+export type ProjectCategory = 'web-app' | 'mobile' | 'desktop' | 'library' | 'api' | 'tool' | 'game' | 'graphics' | 'other'
 
 export type TechnologyStack = {
   frontend?: string[]
@@ -73,7 +73,7 @@ export interface Project {
   tags: string[]
   teamSize?: number
   myRole?: string
-  clientType?: 'personal' | 'freelance' | 'company' | 'open-source'
+  clientType?: 'personal' | 'freelance' | 'company' | 'open-source' | 'UC Berkeley'
   
   // SEO & Display
   seoTitle?: string

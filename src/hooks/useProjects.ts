@@ -82,6 +82,11 @@ export function useProjects() {
       .sort((a, b) => a.displayOrder - b.displayOrder)
   }, [])
 
+  const ucBerkeleyProjects = useMemo(() => {
+    return allProjects.filter(project => project.clientType === 'UC Berkeley')
+      .sort((a, b) => a.displayOrder - b.displayOrder)
+  }, [])
+
   const clearFilters = () => {
     setFilters({})
     setSearchTerm('')
@@ -102,6 +107,7 @@ export function useProjects() {
     // Data
     projects: filteredAndSortedProjects,
     featuredProjects,
+    ucBerkeleyProjects,
     allProjects,
     
     // Actions

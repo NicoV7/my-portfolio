@@ -17,6 +17,7 @@ export default function ProjectsPage() {
   const {
     projects: filteredProjects,
     featuredProjects,
+    ucBerkeleyProjects,
     filters,
     sort,
     searchTerm,
@@ -159,6 +160,36 @@ export default function ProjectsPage() {
               </h2>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {featuredProjects.slice(0, 4).map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 * index }}
+                  >
+                    <ProjectCard
+                      project={project}
+                      onClick={() => setSelectedProject(project)}
+                      index={index}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* UC Berkeley Projects Section */}
+          {!hasActiveFilters && ucBerkeleyProjects.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="mt-16"
+            >
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                🎓 UC Berkeley Projects
+              </h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {ucBerkeleyProjects.map((project, index) => (
                   <motion.div
                     key={project.id}
                     initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}

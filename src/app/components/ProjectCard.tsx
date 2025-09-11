@@ -106,9 +106,9 @@ export default function ProjectCard({ project, onClick, index }: ProjectCardProp
         {/* Links Preview */}
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            {project.links.slice(0, 2).map((link) => (
+            {project.links.slice(0, 2).map((link, index) => (
               <div
-                key={link.type}
+                key={`${link.type}-${index}`}
                 className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400"
               >
                 {link.type === 'github' && (

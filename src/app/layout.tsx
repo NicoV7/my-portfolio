@@ -37,7 +37,7 @@ function ThemeInitScript() {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white text-black dark:bg-gray-900 dark:text-white`}>
+      <body className={`${inter.className} bg-white text-black dark:bg-gray-900 dark:text-white`} suppressHydrationWarning>
         <ThemeInitScript />
         <ThemeToggle />
         <AnimatedPageWrapper>{children}</AnimatedPageWrapper>
