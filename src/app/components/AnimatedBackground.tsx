@@ -8,14 +8,29 @@ type AnimatedBackgroundProps = {
   className?: string
 }
 
+type Particle = {
+  x: number
+  y: number
+  baseSize: number
+  size: number
+  speedX: number
+  speedY: number
+  opacity: number
+  angle: number
+  rotationSpeed: number
+  pulseSpeed: number
+  pulseOffset: number
+  trail: Array<{ x: number; y: number }>
+}
+
 export default function AnimatedBackground({ 
   variant = 'particles', 
   intensity = 'subtle',
   className = ''
 }: AnimatedBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>()
-  const particlesRef = useRef<any[]>([])
+  const animationRef = useRef<number | undefined>(undefined)
+  const particlesRef = useRef<Particle[]>([])
 
   useEffect(() => {
     const canvas = canvasRef.current

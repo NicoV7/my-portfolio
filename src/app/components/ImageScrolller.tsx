@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface ImageScrollerProps {
   cloudName: string;
@@ -27,9 +28,11 @@ const ImageScroller: React.FC<ImageScrollerProps> = ({ folder }) => {
     <div className="fixed inset-0 z-[-1] overflow-hidden">
       <div className="animate-scroll-vertical h-[200%] w-full flex flex-col items-center gap-4 opacity-20">
         {images.map((url, i) => (
-          <img
+          <Image
             key={i}
             src={url}
+            width={384}
+            height={216}
             className="max-w-xs rounded-xl shadow-lg"
             alt={`project-${i}`}
           />

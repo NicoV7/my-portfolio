@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function DebugPage() {
@@ -38,9 +39,11 @@ export default function DebugPage() {
           </div>
           
           <div className="bg-gray-100 p-4 rounded h-48 flex items-center justify-center">
-            <img
+            <Image
               src={thumbnailUrl}
               alt="Thumbnail test"
+              width={300}
+              height={200}
               className="max-w-full max-h-full object-contain"
               onLoad={() => {
                 console.log('✅ Thumbnail loaded successfully')
@@ -71,9 +74,11 @@ export default function DebugPage() {
           </div>
           
           <div className="bg-gray-100 p-4 rounded h-48 flex items-center justify-center">
-            <img
+            <Image
               src={gifUrl}
               alt="GIF test"
+              width={300}
+              height={200}
               className="max-w-full max-h-full object-contain"
               onLoad={() => {
                 console.log('✅ GIF loaded successfully')
@@ -104,9 +109,11 @@ export default function DebugPage() {
           </p>
           
           <div className="w-64 h-48 bg-white rounded border overflow-hidden">
-            <img
+            <Image
               src={thumbnailUrl}
               alt="AI Task Manager thumbnail"
+              width={256}
+              height={192}
               className="w-full h-full object-cover"
               onLoad={() => console.log('✅ ProjectCard-style thumbnail loaded')}
               onError={() => console.log('❌ ProjectCard-style thumbnail failed')}
