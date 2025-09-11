@@ -14,8 +14,7 @@ export const blogPosts: BlogPost[] = [
     updatedAt: '2024-12-15T10:00:00Z',
     tags: ['Django', 'React', 'AI', 'PostgreSQL', 'Full-Stack'],
     readingTime: 8,
-    author: 'Nico Vega',
-    coverImage: '/blog/ai-task-manager-cover.jpg'
+    author: 'Nico Vega'
   },
   {
     id: '2',
@@ -30,8 +29,7 @@ export const blogPosts: BlogPost[] = [
     updatedAt: '2024-12-10T14:30:00Z',
     tags: ['Next.js', 'Framer Motion', 'React', 'Animation', 'Performance'],
     readingTime: 6,
-    author: 'Nico Vega',
-    coverImage: '/blog/framer-motion-cover.jpg'
+    author: 'Nico Vega'
   },
   {
     id: '3',
@@ -47,7 +45,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['Next.js', 'Dark Mode', 'CSS', 'SSR', 'UX'],
     readingTime: 7,
     author: 'Nico Vega',
-    coverImage: '/blog/dark-mode-cover.jpg'
   },
   {
     id: '4',
@@ -63,7 +60,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['PostgreSQL', 'Database', 'Performance', 'SQL', 'Optimization'],
     readingTime: 9,
     author: 'Nico Vega',
-    coverImage: '/blog/postgresql-cover.jpg'
   },
   {
     id: '5',
@@ -79,7 +75,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['TypeScript', 'React', 'Advanced', 'Patterns', 'Type Safety'],
     readingTime: 10,
     author: 'Nico Vega',
-    coverImage: '/blog/typescript-cover.jpg'
   },
   {
     id: '6',
@@ -95,7 +90,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['Career', 'UC Berkeley', 'Computer Science', 'Job Search', 'Advice'],
     readingTime: 12,
     author: 'Nico Vega',
-    coverImage: '/blog/career-advice-cover.jpg'
   },
   {
     id: '7',
@@ -111,7 +105,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['Docker', 'DevOps', 'Development', 'Deployment', 'Workflow'],
     readingTime: 11,
     author: 'Nico Vega',
-    coverImage: '/blog/docker-cover.jpg'
   },
   {
     id: '8',
@@ -127,7 +120,6 @@ export const blogPosts: BlogPost[] = [
     tags: ['React', 'Performance', 'Optimization', 'JavaScript', 'Web Development'],
     readingTime: 13,
     author: 'Nico Vega',
-    coverImage: '/blog/react-performance-cover.jpg'
   }
 ]
 
@@ -135,8 +127,14 @@ export const blogPosts: BlogPost[] = [
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 // Mock API functions
-export const fetchBlogPosts = async (offset = 0, limit = 6): Promise<BlogPost[]> => {
+export const fetchBlogPosts = async (offset?: number, limit?: number): Promise<BlogPost[]> => {
   await delay(800) // Simulate network delay
+  
+  // If no pagination parameters provided, return all posts
+  if (offset === undefined || limit === undefined) {
+    return blogPosts
+  }
+  
   return blogPosts.slice(offset, offset + limit)
 }
 

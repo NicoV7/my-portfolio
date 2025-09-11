@@ -13,8 +13,6 @@ export default function BlogPage() {
     posts,
     loading,
     error,
-    hasMore,
-    loadMore,
     searchTerm,
     setSearchTerm,
     searchResults,
@@ -98,15 +96,15 @@ export default function BlogPage() {
                   .filter(post => post.featured)
                   .slice(0, 2)
                   .map((post, index) => (
-                    <motion.div
-                      key={post.id}
-                      initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                      className="transform scale-105"
-                    >
-                      <div className="bg-gradient-to-r from-blue-500/5 to-purple-500/5 dark:from-blue-400/5 dark:to-purple-400/5 night:from-orange-500/5 night:to-red-500/5 p-1 rounded-2xl">
-                        <div className="bg-white dark:bg-gray-800 night:bg-black rounded-xl">
+                    <Link key={post.id} href={`/blog/${post.slug}`} className="block">
+                      <motion.div
+                        initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+                        className="transform scale-105 hover:scale-110 transition-transform duration-300 cursor-pointer"
+                      >
+                        <div className="bg-gradient-to-r from-blue-500/5 to-purple-500/5 dark:from-blue-400/5 dark:to-purple-400/5 night:from-orange-500/5 night:to-red-500/5 p-1 rounded-2xl">
+                          <div className="bg-white dark:bg-gray-800 night:bg-black rounded-xl hover:shadow-lg transition-shadow duration-300">
                           <div className="p-6">
                             <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 night:text-gray-400 mb-3">
                               <time dateTime={post.publishedAt}>
@@ -135,16 +133,17 @@ export default function BlogPage() {
                                 </span>
                               ))}
                             </div>
-                            <button className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 night:text-orange-500 night:hover:text-orange-400 font-medium transition-colors duration-200">
+                            <span className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 night:text-orange-500 night:hover:text-orange-400 font-medium transition-colors duration-200">
                               Read featured post
                               <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                               </svg>
-                            </button>
+                            </span>
                           </div>
                         </div>
                       </div>
-                    </motion.div>
+                      </motion.div>
+                    </Link>
                   ))}
               </div>
             </motion.div>
@@ -171,8 +170,6 @@ export default function BlogPage() {
               posts={displayPosts}
               loading={loading}
               error={error}
-              hasMore={hasMore}
-              onLoadMore={loadMore}
               searchTerm={searchTerm}
             />
           </motion.div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { BlogPost } from '../../types/blog'
 
 interface BlogCardProps {
@@ -9,6 +10,7 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, index = 0 }: BlogCardProps) {
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -30,12 +32,13 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
   }
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white dark:bg-gray-800 night:bg-black border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-xl shadow-sm hover:shadow-lg dark:shadow-gray-900/20 night:shadow-orange-900/20 transition-all duration-300 overflow-hidden"
-    >
+    <Link href={`/blog/${post.slug}`} className="block">
+      <motion.article
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        className="group relative bg-white dark:bg-gray-800 night:bg-black border border-gray-200 dark:border-gray-700 night:border-gray-800 rounded-xl shadow-sm hover:shadow-lg dark:shadow-gray-900/20 night:shadow-orange-900/20 transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02]"
+      >
       {/* Featured indicator */}
       {post.featured && (
         <div className="absolute top-4 right-4 z-10">
@@ -45,14 +48,11 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
         </div>
       )}
 
-      {/* Cover image placeholder */}
-      <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 night:from-gray-900 night:to-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-400/10 dark:to-purple-400/10 night:from-orange-500/10 night:to-red-500/10" />
-        <div className="absolute bottom-4 left-4">
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(post.category)}`}>
-            {post.category.replace('-', ' ')}
-          </span>
-        </div>
+      {/* Header with category */}
+      <div className="h-24 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-400/10 dark:to-purple-400/10 night:from-orange-500/10 night:to-red-500/10 relative overflow-hidden flex items-center justify-center">
+        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(post.category)}`}>
+          {post.category.replace('-', ' ')}
+        </span>
       </div>
 
       {/* Content */}
@@ -95,12 +95,12 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
 
         {/* Read more link */}
         <div className="flex items-center justify-between">
-          <button className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 night:text-orange-500 night:hover:text-orange-400 font-medium text-sm transition-colors duration-200">
+          <span className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 night:text-orange-500 night:hover:text-orange-400 font-medium text-sm transition-colors duration-200">
             Read more
             <svg className="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </span>
 
           {/* Author info */}
           <div className="flex items-center">
@@ -113,6 +113,7 @@ export default function BlogCard({ post, index = 0 }: BlogCardProps) {
           </div>
         </div>
       </div>
-    </motion.article>
+      </motion.article>
+    </Link>
   )
 }

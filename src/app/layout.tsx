@@ -1,7 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import ThemeToggle from './components/ThemeToggle'
-import AnimatedPageWrapper from './components/AnimatedPageWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -49,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} bg-white text-black dark:bg-slate-800 dark:text-white night:bg-black night:text-white transition-colors duration-300`} suppressHydrationWarning>
         <ThemeInitScript />
         <ThemeToggle />
-        <AnimatedPageWrapper>{children}</AnimatedPageWrapper>
+        {children}
       </body>
     </html>
   )

@@ -8,56 +8,34 @@ interface UseBlogPostsReturn {
   posts: BlogPost[]
   loading: boolean
   error: string | null
-  hasMore: boolean
-  loadMore: () => void
   searchTerm: string
   setSearchTerm: (term: string) => void
   searchResults: BlogPost[]
   searching: boolean
 }
 
-const POSTS_PER_PAGE = 6
-
 export function useBlogPosts(): UseBlogPostsReturn {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [hasMore, setHasMore] = useState(true)
-  const [offset, setOffset] = useState(0)
   
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<BlogPost[]>([])
   const [searching, setSearching] = useState(false)
 
-  const loadPosts = useCallback(async (currentOffset: number, isInitial = false) => {
-    if (loading) return
-    
+  const loadAllPosts = useCallback(async () => {
     setLoading(true)
     setError(null)
 
     try {
-      const newPosts = await fetchBlogPosts(currentOffset, POSTS_PER_PAGE)
-      
-      if (isInitial) {
-        setPosts(newPosts)
-      } else {
-        setPosts(prev => [...prev, ...newPosts])
-      }
-      
-      setHasMore(newPosts.length === POSTS_PER_PAGE)
-      setOffset(currentOffset + POSTS_PER_PAGE)
+      const allPosts = await fetchBlogPosts()
+      setPosts(allPosts)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load blog posts')
     } finally {
       setLoading(false)
     }
-  }, [loading])
-
-  const loadMore = useCallback(() => {
-    if (hasMore && !loading && !searchTerm) {
-      loadPosts(offset)
-    }
-  }, [hasMore, loading, searchTerm, offset, loadPosts])
+  }, [])
 
   const performSearch = useCallback(async (query: string) => {
     if (!query.trim()) {
@@ -80,8 +58,8 @@ export function useBlogPosts(): UseBlogPostsReturn {
 
   // Initial load
   useEffect(() => {
-    loadPosts(0, true)
-  }, [loadPosts])
+    loadAllPosts()
+  }, [loadAllPosts])
 
   // Debounced search
   useEffect(() => {
@@ -96,8 +74,6 @@ export function useBlogPosts(): UseBlogPostsReturn {
     posts,
     loading,
     error,
-    hasMore,
-    loadMore,
     searchTerm,
     setSearchTerm,
     searchResults,

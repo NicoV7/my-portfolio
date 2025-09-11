@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import BlogCard from './BlogCard'
 import { BlogPost } from '../../types/blog'
@@ -9,8 +8,6 @@ interface BlogListProps {
   posts: BlogPost[]
   loading: boolean
   error: string | null
-  hasMore: boolean
-  onLoadMore: () => void
   searchTerm?: string
 }
 
@@ -18,34 +15,8 @@ export default function BlogList({
   posts, 
   loading, 
   error, 
-  hasMore, 
-  onLoadMore,
   searchTerm = ''
 }: BlogListProps) {
-  const loadMoreRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const target = entries[0]
-        if (target.isIntersecting && hasMore && !loading && !searchTerm) {
-          onLoadMore()
-        }
-      },
-      { threshold: 1.0 }
-    )
-
-    const currentRef = loadMoreRef.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [hasMore, loading, onLoadMore, searchTerm])
 
   if (error) {
     return (
@@ -112,20 +83,15 @@ export default function BlogList({
         </div>
       )}
 
-      {/* Load more trigger (invisible) */}
-      {hasMore && !searchTerm && (
-        <div ref={loadMoreRef} className="h-4" />
-      )}
-
       {/* End message */}
-      {!hasMore && posts.length > 0 && !searchTerm && (
+      {posts.length > 0 && !searchTerm && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-center py-8"
         >
           <p className="text-gray-500 dark:text-gray-400 night:text-gray-400">
-            You&apos;ve reached the end! Thanks for reading. 📚
+            Thanks for reading! 📚
           </p>
         </motion.div>
       )}
