@@ -35,7 +35,7 @@ export default function Home() {
           Full Stack Developer | UC Berkeley Computer Science Alumni
         </motion.p>
 
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center">
+        <div className="mt-8 flex flex-col sm:flex-row gap-6 sm:gap-6 items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
