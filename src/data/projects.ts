@@ -388,6 +388,212 @@ export const projects: Project[] = [
   myRole: 'Machine Learning Engineer',
   clientType: 'UC Berkeley',
   displayOrder: 6
+},
+{
+  id: '7',
+  slug: 'wogo-social-platform',
+  title: 'WoGo Social Media Platform',
+  shortDescription: 'Production-ready social media platform with Instagram-style feed, three-tier moment system, and AWS serverless backend.',
+  fullDescription: `A production-grade social media platform built for Wogo Life Inc, featuring 60,000+ lines of code and 60+ React components.
+  The platform combines Instagram-style vertical video feeds with a unique three-tier moment system (Bronze/Silver/Gold based on radius and visibility),
+  modern Google Maps integration, and comprehensive social features. Built with React 18, TypeScript, and AWS serverless architecture (Lambda, DynamoDB,
+  S3, Cognito) in a Turborepo monorepo. Features include live camera integration with 60-second recording limits, real-time social interactions
+  (likes, comments, shares), direct messaging, activity feeds, and location-based discovery with GPS tracking and Haversine distance calculations.`,
+  status: 'completed',
+  category: 'web-app',
+  featured: true,
+
+  startDate: '2024-06-01',
+  endDate: '2024-11-30',
+  lastUpdated: '2025-11-20',
+
+  technologies: {
+    frontend: ['React 18', 'TypeScript', 'Vite', 'TailwindCSS', 'shadcn/ui', 'Capacitor', 'Google Maps API'],
+    backend: ['AWS Lambda', 'AWS API Gateway', 'Serverless Framework', 'Node.js'],
+    database: ['AWS DynamoDB', 'AWS S3', 'AWS Cognito'],
+    deployment: ['AWS', 'Turborepo', 'Capacitor'],
+    tools: ['TanStack React Query', 'React Context', 'Google Places API', 'ESLint', 'TypeScript']
+  },
+  primaryTech: ['React', 'TypeScript', 'AWS Lambda', 'DynamoDB', 'Vite', 'TailwindCSS'],
+
+  images: [],
+
+  links: [
+    { type: 'live', url: 'https://www.thewogo.com', label: 'Live Demo' }
+  ],
+
+  features: [
+    { title: 'Instagram-Style Feed', description: 'Full-screen vertical video feed with snap positioning and swipe navigation', implemented: true },
+    { title: 'Three-Tier Moment System', description: 'Bronze (20mi radius), Silver (allies-only), Gold (global) content distribution', implemented: true },
+    { title: 'Modern Google Maps Integration', description: 'Custom styling, marker clustering, React-based InfoWindows, custom SVG markers', implemented: true },
+    { title: 'Live Camera Integration', description: 'Native video/photo capture with 60-second recording limit and real-time preview', implemented: true },
+    { title: 'Real-Time Social Features', description: 'Likes, comments, shares, activity feed, direct messaging with instant updates', implemented: true },
+    { title: 'Location Services', description: 'GPS tracking with Haversine distance calculation for proximity-based features', implemented: true },
+    { title: 'AWS Serverless Backend', description: 'Lambda functions, DynamoDB tables, API Gateway, Cognito auth, S3 storage', implemented: true },
+    { title: 'User Management System', description: 'Streak tracking (3-video daily goal), comprehensive profiles, allies system', implemented: true },
+    { title: 'Monorepo Architecture', description: 'Turborepo workspace with shared packages and optimized build pipeline', implemented: true }
+  ],
+
+  challenges: [
+    'Scaling to production-ready status with 60,000+ lines of code and 60+ components',
+    'Implementing Instagram-style vertical feed with smooth snap positioning and performance optimization',
+    'Modernizing Google Maps integration with React-based InfoWindows and custom marker clustering',
+    'Building AWS serverless architecture with Lambda, DynamoDB, and S3 for scalable backend',
+    'Integrating native camera functionality with Capacitor for mobile video capture',
+    'Designing three-tier content distribution system with location-based filtering'
+  ],
+
+  learnings: [
+    'Built production-scale React application with advanced state management and performance optimization',
+    'Mastered AWS serverless architecture with Lambda, DynamoDB, API Gateway, and Cognito',
+    'Gained expertise in Google Maps API with custom markers, clustering, and React integration',
+    'Learned mobile app development with Capacitor for native camera and GPS features',
+    'Developed skills in location-based services with Haversine distance calculations',
+    'Practiced monorepo architecture with Turborepo for large-scale application management',
+    'Enhanced understanding of social media platform features: feeds, messaging, activity tracking'
+  ],
+
+  tags: ['Social Media', 'AWS Serverless', 'TypeScript', 'React', 'Google Maps', 'Capacitor', 'Full-Stack'],
+  teamSize: 1,
+  myRole: 'Full-Stack Developer — Frontend, AWS Backend, & Mobile Integration',
+  clientType: 'freelance',
+  displayOrder: 7
+},
+{
+  id: '8',
+  slug: 'ynld-trust-youtube-summarizer',
+  title: 'YNLD Trust - YouTube Summarizer',
+  shortDescription: 'AI-powered Chrome extension that summarizes YouTube playlists using Gemini and OpenAI APIs with multi-format export.',
+  fullDescription: `A Chrome extension built for YNLD Trust that leverages AI to automatically summarize YouTube playlists, helping users
+  quickly understand video content without watching everything. The extension extracts transcripts from YouTube videos and uses Google's
+  Gemini API (with OpenAI as fallback) to generate concise summaries. Users can batch process entire playlists and export summaries in
+  multiple formats (Markdown, PDF, DOCX). Built with a cost-effective architecture where users provide their own API keys, eliminating
+  hosting costs for the client while maintaining full functionality. Features a modern React-based UI with Tailwind CSS and Chrome Extension
+  Manifest V3 for enhanced security and performance.`,
+  status: 'completed',
+  category: 'web-app',
+  featured: true,
+
+  startDate: '2024-09-01',
+  endDate: '2024-10-31',
+  lastUpdated: '2024-10-31',
+
+  technologies: {
+    frontend: ['React', 'TypeScript', 'Vite', 'Tailwind CSS'],
+    backend: ['Chrome Extension Manifest V3'],
+    database: [],
+    deployment: ['Chrome Web Store'],
+    tools: ['Gemini API', 'OpenAI API', 'jsPDF', 'docx', 'ESLint', 'Prettier']
+  },
+  primaryTech: ['React', 'TypeScript', 'Chrome Extension', 'Gemini API'],
+
+  images: [],
+
+  links: [],
+
+  features: [
+    { title: 'Automatic Transcript Extraction', description: 'Extract transcripts from YouTube videos automatically without manual input', implemented: true },
+    { title: 'Dual AI Summarization', description: 'Primary Gemini API with OpenAI fallback for reliable AI-powered summarization', implemented: true },
+    { title: 'Batch Playlist Processing', description: 'Process entire YouTube playlists with a single click for efficient workflow', implemented: true },
+    { title: 'Multi-Format Export', description: 'Export summaries as Markdown (.md), PDF, or DOCX for flexible use cases', implemented: true },
+    { title: 'User-Provided API Keys', description: 'Cost-effective architecture with zero hosting costs for the client', implemented: true },
+    { title: 'Chrome Extension UI', description: 'Modern popup interface with Tailwind CSS and intuitive controls', implemented: true },
+    { title: 'Manifest V3 Compliance', description: 'Built with latest Chrome Extension standards for enhanced security', implemented: true }
+  ],
+
+  challenges: [
+    'Integrating YouTube transcript extraction with reliable fallback mechanisms',
+    'Implementing dual AI provider system (Gemini + OpenAI) with seamless failover',
+    'Designing user-friendly API key management within Chrome Extension constraints',
+    'Building multi-format export functionality (PDF, DOCX, Markdown) in browser environment',
+    'Ensuring Chrome Extension Manifest V3 compliance with modern security requirements'
+  ],
+
+  learnings: [
+    'Mastered Chrome Extension development with Manifest V3 architecture and APIs',
+    'Gained expertise integrating multiple AI APIs (Gemini and OpenAI) with fallback logic',
+    'Learned browser-based document generation with jsPDF and docx libraries',
+    'Developed skills in YouTube API integration and transcript extraction techniques',
+    'Practiced cost-effective architecture design with client-side API key management',
+    'Enhanced understanding of modern Chrome Extension security and permissions model'
+  ],
+
+  tags: ['Chrome Extension', 'AI', 'YouTube', 'Summarization', 'TypeScript', 'React'],
+  teamSize: 1,
+  myRole: 'Full-Stack Developer — Chrome Extension Development & AI Integration',
+  clientType: 'freelance',
+  displayOrder: 8
+},
+{
+  id: '9',
+  slug: 'smartcache',
+  title: 'SmartCache',
+  shortDescription: 'Production-grade two-tier caching system with Redis and PostgreSQL, featuring ETL pipeline and >90% cache hit rate.',
+  fullDescription: `A high-performance, production-ready caching service demonstrating advanced Python development and data engineering skills.
+  SmartCache implements a two-tier caching architecture with Redis (L1 for speed) and PostgreSQL (L2 for persistence), designed for marketing
+  analytics data workflows. Features include schema-aware data validation with Pydantic, a complete ETL pipeline for CSV/JSON ingestion,
+  an interactive web dashboard built with Alpine.js and Chart.js, and a beautiful CLI tool using Rich formatting. The system achieves >90%
+  cache hit rates with <10ms L1 latency and <50ms L2 latency, handling 1000+ requests/second. Built with production-grade observability
+  (structured logging, Prometheus metrics, health checks), full type safety (mypy strict mode), and comprehensive Docker deployment with
+  multi-environment support. Demonstrates modern Python best practices including async/await patterns, SQLAlchemy 2.0 async, Alembic
+  migrations, and resilience patterns like circuit breakers and exponential backoff.`,
+  status: 'completed',
+  category: 'api',
+  featured: false,
+
+  startDate: '2024-08-01',
+  endDate: '2024-09-30',
+  lastUpdated: '2024-09-30',
+
+  technologies: {
+    frontend: ['Alpine.js', 'Tailwind CSS', 'Chart.js'],
+    backend: ['FastAPI', 'Python 3.12+', 'Uvicorn'],
+    database: ['PostgreSQL 16', 'Redis 7', 'SQLAlchemy 2.0'],
+    deployment: ['Docker', 'Docker Compose', 'Poetry'],
+    tools: ['Alembic', 'pytest', 'Black', 'Ruff', 'mypy', 'Typer', 'Rich', 'Pandas', 'Pydantic']
+  },
+  primaryTech: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Alpine.js'],
+
+  images: [],
+
+  links: [],
+
+  features: [
+    { title: 'Two-Tier Caching Architecture', description: 'Redis L1 for speed (<10ms) + PostgreSQL L2 for persistence (<50ms)', implemented: true },
+    { title: 'ETL Pipeline', description: 'CSV/JSON ingestion with Pydantic validation, transformation, and storage', implemented: true },
+    { title: 'Interactive Web Dashboard', description: 'Real-time metrics, cache operations, namespace browser with Alpine.js + Chart.js', implemented: true },
+    { title: 'Beautiful CLI Tool', description: 'Rich-formatted command-line interface with Typer for all cache operations', implemented: true },
+    { title: 'Production Observability', description: 'Structured logging, Prometheus metrics, comprehensive health checks', implemented: true },
+    { title: 'Schema-Aware Validation', description: 'Pydantic models with schema versioning for evolving data structures', implemented: true },
+    { title: 'High Performance', description: '>90% cache hit rate, <10ms L1 latency, 1000+ requests/second throughput', implemented: true },
+    { title: 'Type Safety', description: 'Full type hints with mypy strict mode for production reliability', implemented: true },
+    { title: 'Resilience Patterns', description: 'Retry logic with exponential backoff, circuit breaker patterns', implemented: true }
+  ],
+
+  challenges: [
+    'Designing optimal two-tier caching strategy for marketing analytics data workflows',
+    'Implementing schema versioning system for evolving data structures without breaking changes',
+    'Building resilient ETL pipeline with proper error handling and recovery mechanisms',
+    'Optimizing PostgreSQL query performance with indexing strategies for cache operations',
+    'Balancing cache eviction policies for optimal memory usage and hit rates',
+    'Ensuring type safety across async operations with modern Python patterns'
+  ],
+
+  learnings: [
+    'Mastered production PostgreSQL usage with async SQLAlchemy 2.0 and Alembic migrations',
+    'Gained expertise in ETL pipeline engineering with Pydantic validation and error handling',
+    'Learned modern Python best practices: async/await, type hints, structured logging',
+    'Developed skills in API and SDK design with FastAPI and comprehensive documentation',
+    'Practiced resilience patterns including circuit breakers and exponential backoff retry logic',
+    'Enhanced understanding of caching strategies, eviction policies, and performance optimization',
+    'Built production-grade observability with Prometheus metrics and structured logging'
+  ],
+
+  tags: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'ETL', 'Data Engineering', 'Caching', 'Docker'],
+  teamSize: 1,
+  myRole: 'Backend Developer — Data Engineering & Cache Architecture',
+  clientType: 'personal',
+  displayOrder: 9
 }
 
 ]
