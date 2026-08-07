@@ -1,95 +1,200 @@
-
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
-@custom-variant night (&:where(.night, .night *));
 
-/* Theme CSS Custom Properties */
+/*
+  "Showroom" design system — single refined dark theme.
+  Mercedes-luxury: pure-black void, chrome/silver, one headlight-blue accent.
+  Tokens are exposed both as Tailwind theme values (@theme) and raw CSS vars.
+*/
+
+@theme {
+  /* Surfaces */
+  --color-void: #050505;
+  --color-carbon: #0c0d0f;
+  --color-graphite: #141619;
+  --color-slate-raised: #1c1f24;
+  --color-chrome-line: #2a2e35;
+
+  /* Type */
+  --color-silver: #b8bcc4;
+  --color-platinum: #e8eaed;
+  --color-white-soft: #fdfdfd;
+
+  /* Accent — headlight blue */
+  --color-accent: #4ea1ff;
+  --color-accent-hot: #7dbeff;
+  --color-accent-deep: #1e5fcc;
+  --color-chrome-warm: #c8a97e;
+
+  /* Fonts (wired from next/font CSS vars in layout.tsx) */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-lux: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 :root {
-  /* Light mode (default) */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
+  --gradient-chrome: linear-gradient(
+    180deg,
+    #e8eaed 0%,
+    #9aa0a8 45%,
+    #5a5f66 55%,
+    #c4c8ce 100%
+  );
+  --gradient-surface: radial-gradient(
+    120% 120% at 50% 0%,
+    #16181c 0%,
+    #0a0b0d 60%
+  );
+  --sheen: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 60%
+  );
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 20px 60px -20px rgba(0, 0, 0, 0.8);
+  --shadow-card-hover: 0 0 0 1px rgba(78, 161, 255, 0.25),
+    0 0 40px -10px rgba(78, 161, 255, 0.35),
+    0 20px 60px -20px rgba(0, 0, 0, 0.8);
+
+  --space-section: clamp(6rem, 12vh, 10rem);
+  --content: 72rem;
+  --prose: 44rem;
+
+  color-scheme: dark;
 }
 
-.dark {
-  /* Dark mode - dark blue background */
-  --bg-primary: #1e293b;
-  --bg-secondary: #334155;
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --border-color: #475569;
+* {
+  border-color: var(--color-chrome-line);
 }
 
-.night {
-  /* Night mode - pure black OLED background */
-  --bg-primary: #000000;
-  --bg-secondary: #000000;
-  --text-primary: #ffffff;
-  --text-secondary: #ffffff;
-  --text-accent: #f97316; /* Orange for emphasis */
-  --border-color: #333333;
+html {
+  scroll-behavior: smooth;
+  background: var(--color-void);
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-platinum);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────── */
+
+/* Eyebrow / mono label */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-silver);
+}
+
+/* Chrome gradient text */
+.chrome-text {
+  background: var(--gradient-chrome);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Chrome sheen sweep on hover (apply .sheen to a relatively-positioned el) */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sheen);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-lux);
+  pointer-events: none;
+}
+.sheen:hover::after {
+  transform: translateX(120%);
+}
+
+/* Film-grain + vignette overlay (fixed, non-interactive) */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  opacity: 0.9;
+}
+
+/* Accent focus ring */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-800;
+  background: var(--color-void);
 }
-
-.night ::-webkit-scrollbar-track {
-  @apply bg-black;
-}
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  background: var(--color-slate-raised);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-void);
 }
-
-.night ::-webkit-scrollbar-thumb {
-  @apply bg-gray-700 rounded-full;
-}
-
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-500;
+  background: var(--color-chrome-line);
 }
 
-.night ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-600;
-}
-
-/* Line clamp utilities */
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
+/* Line clamps */
+.line-clamp-1,
+.line-clamp-2,
 .line-clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-/* Smooth focus transitions */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+.line-clamp-1 {
+  -webkit-line-clamp: 1;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+}
+.line-clamp-3 {
+  -webkit-line-clamp: 3;
 }
 
-/* Custom animations */
+/* Reveal + shimmer keyframes */
 @keyframes fade-in-up {
   0% {
     opacity: 0;
@@ -100,41 +205,10 @@
     transform: translateY(0);
   }
 }
-
-@keyframes scale-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
+  animation: fade-in-up 0.6s var(--ease-lux) forwards;
 }
 
-.animate-scale-in {
-  animation: scale-in 0.3s ease-out forwards;
-}
-
-/* Project card hover effects */
-.project-card {
-  @apply transition-all duration-300 ease-out;
-}
-
-.project-card:hover {
-  @apply transform -translate-y-2 shadow-xl;
-}
-
-/* Modal backdrop blur */
-.modal-backdrop {
-  backdrop-filter: blur(8px);
-}
-
-/* Loading shimmer effect */
 @keyframes shimmer {
   0% {
     background-position: -468px 0;
@@ -143,9 +217,13 @@
     background-position: 468px 0;
   }
 }
-
 .shimmer {
   animation: shimmer 1.5s ease-in-out infinite;
-  background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 100%
+  );
   background-size: 468px 100%;
 }

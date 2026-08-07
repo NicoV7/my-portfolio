@@ -2,20 +2,17 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { Project } from '../../types/project'
 import { useProjects } from '../../hooks/useProjects'
 import ProjectCard from '../components/ProjectCard'
 import ProjectModal from '../components/ProjectModal'
 import ProjectFilters from '../components/ProjectFilters'
 import ProjectSkeletonCard from '../components/ProjectSkeletonCard'
-import AnimatedPageWrapper from '../components/AnimatedPageWrapper'
-import AnimatedBackground from '../components/AnimatedBackground'
 
 export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  
+
   const {
     projects: filteredProjects,
     featuredProjects,
@@ -28,224 +25,136 @@ export default function ProjectsPage() {
     setSearchTerm,
     clearFilters,
     hasActiveFilters,
-    filteredCount
+    filteredCount,
   } = useProjects()
 
-  // Simulate loading state
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 800)
+    const timer = setTimeout(() => setIsLoading(false), 800)
     return () => clearTimeout(timer)
   }, [])
 
   return (
-    <AnimatedPageWrapper>
-      <main className="relative min-h-screen bg-gray-50 dark:bg-gray-900 night:bg-black transition-colors duration-300">
-        <AnimatedBackground variant="geometric" intensity="subtle" />
-        <div className="relative z-20 container mx-auto px-4 py-8 max-w-7xl">
+    <main className="relative z-10 min-h-screen bg-void">
+      <div className="container mx-auto max-w-[var(--content)] px-6 pb-24 pt-32">
+        {/* Page Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-14"
+        >
+          <p className="eyebrow">All Work</p>
+          <h1 className="mt-4 font-serif text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.02] text-white-soft">
+            The full garage.
+          </h1>
+          <p className="mt-4 max-w-[var(--prose)] text-lg text-silver">
+            Everything I&apos;ve built — production platforms, AI systems, and
+            research projects across social, fintech, insurance, healthcare, and
+            graphics.
+          </p>
+        </motion.div>
 
-          {/* Navigation */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-8"
-          >
-            <nav className="flex items-center justify-center gap-4 sm:gap-6 px-4">
-              <Link 
-                href="/" 
-                className="text-gray-600 dark:text-gray-300 night:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 night:hover:text-orange-500 transition-colors duration-200"
-              >
-                Home
-              </Link>
-              <span className="text-gray-400 dark:text-gray-600 night:text-gray-600">•</span>
-              <span className="text-blue-600 dark:text-blue-400 night:text-orange-500 font-medium">
-                Projects
-              </span>
-              <span className="text-gray-400 dark:text-gray-600 night:text-gray-600">•</span>
-              <Link 
-                href="/blog" 
-                className="text-gray-600 dark:text-gray-300 night:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 night:hover:text-orange-500 transition-colors duration-200"
-              >
-                Blog
-              </Link>
-            </nav>
-          </motion.div>
-
-          {/* Page Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white night:text-orange-500 mb-4">
-              My Projects
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 night:text-white max-w-3xl mx-auto leading-relaxed">
-              A collection of projects I&apos;ve built, ranging from web applications to open-source libraries. 
-              Each project represents a learning journey and showcases different technologies and problem-solving approaches.
-            </p>
-          </motion.div>
-
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6"
-          >
-            <div className="relative max-w-md mx-auto">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="Search projects by title, technology, or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 night:border-gray-700 rounded-xl leading-5 bg-white dark:bg-gray-800 night:bg-black text-gray-900 dark:text-white night:text-white placeholder-gray-500 dark:placeholder-gray-400 night:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 night:focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-              />
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative max-w-md">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg className="h-5 w-5 text-silver" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
-          </motion.div>
-
-          {/* Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <ProjectFilters
-              filters={filters}
-              sort={sort}
-              onFiltersChange={setFilters}
-              onSortChange={setSort}
-              onClear={clearFilters}
-              resultsCount={filteredCount}
+            <input
+              type="text"
+              placeholder="Search by title, technology, or description…"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="block w-full rounded-[var(--radius-pill)] border border-chrome-line bg-graphite/60 py-3 pl-10 pr-3 text-platinum placeholder-silver/60 transition-all focus:border-accent/50 focus:outline-none"
             />
-          </motion.div>
-
-          {/* Projects Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <ProjectSkeletonCard key={index} index={index} />
-                ))}
-              </div>
-            ) : filteredProjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProjects.map((project, index) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    onClick={() => setSelectedProject(project)}
-                    index={index}
-                  />
-                ))}
-              </div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center py-16"
-              >
-                <div className="max-w-md mx-auto">
-                  <svg className="mx-auto h-24 w-24 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white night:text-white mb-2">
-                    No projects found
-                  </h3>
-                  <p className="text-gray-500 dark:text-gray-400 night:text-gray-300 mb-4">
-                    Try adjusting your search terms or filters to find what you&apos;re looking for.
-                  </p>
-                  <button
-                    onClick={clearFilters}
-                    className="px-4 py-2 bg-blue-600 night:bg-orange-600 text-white rounded-lg hover:bg-blue-700 night:hover:bg-orange-700 transition-colors duration-200"
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-
-          {/* Featured Projects Section */}
-          {!hasActiveFilters && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-16"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white night:text-orange-500 mb-8 text-center">
-                ⭐ Featured Projects
-              </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {featuredProjects.slice(0, 4).map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                  >
-                    <ProjectCard
-                      project={project}
-                      onClick={() => setSelectedProject(project)}
-                      index={index}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* UC Berkeley Projects Section */}
-          {!hasActiveFilters && ucBerkeleyProjects.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-16"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white night:text-orange-500 mb-8 text-center">
-                🎓 UC Berkeley Projects
-              </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {ucBerkeleyProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                  >
-                    <ProjectCard
-                      project={project}
-                      onClick={() => setSelectedProject(project)}
-                      index={index}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          </div>
         </div>
 
-        {/* Project Modal */}
-        <ProjectModal
-          isOpen={!!selectedProject}
-          onClose={() => setSelectedProject(null)}
-          project={selectedProject}
-        />
-      </main>
-    </AnimatedPageWrapper>
+        {/* Filters */}
+        <div className="mb-4">
+          <ProjectFilters
+            filters={filters}
+            sort={sort}
+            onFiltersChange={setFilters}
+            onSortChange={setSort}
+            onClear={clearFilters}
+            resultsCount={filteredCount}
+          />
+        </div>
+
+        {/* Projects Grid */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <ProjectSkeletonCard key={index} index={index} />
+            ))}
+          </div>
+        ) : filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => setSelectedProject(project)}
+                index={index}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="py-16 text-center">
+            <h3 className="mb-2 font-serif text-2xl text-white-soft">No projects found</h3>
+            <p className="mb-4 text-silver">Try adjusting your search or filters.</p>
+            <button
+              onClick={clearFilters}
+              className="rounded-[var(--radius-pill)] border border-accent/40 px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-accent transition-colors hover:bg-accent/10"
+            >
+              Clear all filters
+            </button>
+          </div>
+        )}
+
+        {/* Featured Projects Section */}
+        {!hasActiveFilters && (
+          <div className="mt-20">
+            <p className="eyebrow mb-6">Featured</p>
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              {featuredProjects.slice(0, 4).map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onClick={() => setSelectedProject(project)}
+                  index={index}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* UC Berkeley Projects Section */}
+        {!hasActiveFilters && ucBerkeleyProjects.length > 0 && (
+          <div className="mt-20">
+            <p className="eyebrow mb-6">UC Berkeley</p>
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              {ucBerkeleyProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onClick={() => setSelectedProject(project)}
+                  index={index}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <ProjectModal
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        project={selectedProject}
+      />
+    </main>
   )
 }

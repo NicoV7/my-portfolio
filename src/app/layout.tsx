@@ -1,56 +1,100 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
-import ThemeToggle from './components/ThemeToggle'
+import type { Metadata } from 'next'
+import { Manrope, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+})
 
-export const metadata = {
-  title: 'Nico Vega | Portfolio',
-  description: 'Full Stack Developer Portfolio',
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-instrument-serif',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
+
+const siteUrl = 'https://nicovega.dev'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Nico Vega — Founding Engineer',
+    template: '%s — Nico Vega',
+  },
+  description:
+    "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25. Building health-automation and agentic systems in San Francisco.",
+  authors: [{ name: 'Nicolas Vega' }],
+  keywords: [
+    'Nico Vega',
+    'Nicolas Vega',
+    'Founding Engineer',
+    'AI engineer',
+    'full-stack engineer',
+    'UC Berkeley',
+    'San Francisco',
+  ],
+  openGraph: {
+    type: 'website',
+    url: siteUrl,
+    siteName: 'Nico Vega',
+    title: 'Nico Vega — Founding Engineer',
+    description:
+      "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25.",
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nico Vega — Founding Engineer',
+    description:
+      "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25.",
+  },
 }
 
-// ✅ Define the script component
-function ThemeInitScript() {
-  return (
-    <script
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function () {
-            try {
-              const theme = localStorage.getItem('theme');
-              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              const html = document.documentElement;
-              
-              // Remove any existing theme classes
-              html.classList.remove('dark', 'night');
-              
-              // Apply the appropriate theme
-              if (theme === 'dark') {
-                html.classList.add('dark');
-              } else if (theme === 'night') {
-                html.classList.add('night');
-              } else if (!theme && prefersDark) {
-                html.classList.add('dark');
-              }
-              // If theme is 'light' or no preference, use default (no classes)
-            } catch (_) {}
-          })();
-        `,
-      }}
-    />
-  )
+export const viewport = {
+  themeColor: '#050505',
+  colorScheme: 'dark' as const,
+}
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Nicolas Vega',
+  alternateName: 'Nico Vega',
+  jobTitle: 'Founding Engineer',
+  url: siteUrl,
+  address: { '@type': 'PostalAddress', addressLocality: 'San Francisco', addressRegion: 'CA' },
+  alumniOf: 'University of California, Berkeley',
+  sameAs: ['https://github.com/NicoV7', 'https://www.linkedin.com/in/nvegab99'],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white text-black dark:bg-slate-800 dark:text-white night:bg-black night:text-white transition-colors duration-300`} suppressHydrationWarning>
-        <ThemeInitScript />
-        <div className="relative">
-          <ThemeToggle />
-          {children}
-        </div>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+    >
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-void text-platinum antialiased"
+      >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <div className="grain-overlay" aria-hidden="true" />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   )
