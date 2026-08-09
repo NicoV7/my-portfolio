@@ -69,7 +69,7 @@ export default function DriveTransition({ progressRef }: { progressRef: RefObjec
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016
       last = now
       if (shown.current < 0) shown.current = p
-      shown.current += (p - shown.current) * (1 - Math.exp(-dt / 0.13))
+      shown.current += (p - shown.current) * (1 - Math.exp(-dt / 0.2))
       const sp = shown.current
 
       // nearest border + signed distance
@@ -100,7 +100,7 @@ export default function DriveTransition({ progressRef }: { progressRef: RefObjec
         const L = LOCS[incoming]
         const c = L.rgb
         if (field.current)
-          field.current.style.background = `radial-gradient(circle at 50% 44%, rgba(${c},0.4) 0%, rgba(5,6,11,0.98) 68%)`
+          field.current.style.background = `radial-gradient(circle at 50% 44%, rgba(${c},0.42) 0%, rgba(244,243,239,0.97) 66%)`
         if (panelA.current)
           panelA.current.style.background = `linear-gradient(90deg, rgba(${c},0.96), rgba(${c},0.66))`
         if (panelC.current)
@@ -170,7 +170,7 @@ export default function DriveTransition({ progressRef }: { progressRef: RefObjec
       <div
         ref={panelB}
         className="absolute"
-        style={{ left: '-30%', right: '-30%', bottom: '-8%', height: '46%', background: 'rgba(6,7,12,0.96)', opacity: 0 }}
+        style={{ left: '-30%', right: '-30%', bottom: '-8%', height: '46%', background: 'rgba(20,19,24,0.92)', opacity: 0 }}
       />
       <div
         ref={panelC}
@@ -199,11 +199,11 @@ export default function DriveTransition({ progressRef }: { progressRef: RefObjec
       >
         <div
           ref={nameEl}
-          className="font-serif font-bold uppercase italic leading-none text-white"
+          className="font-serif font-bold uppercase italic leading-none text-[#141318]"
           style={{
             fontSize: 'clamp(2.4rem,9vw,7rem)',
             letterSpacing: '-0.01em',
-            textShadow: '0 4px 0 rgba(0,0,0,0.35), 0 2px 40px rgba(0,0,0,0.6)',
+            textShadow: '0 3px 0 rgba(255,255,255,0.4), 0 2px 30px rgba(255,255,255,0.7)',
           }}
         />
         <div

@@ -50,14 +50,14 @@ function Expressway({
           </mesh>
           <mesh position={[s * 2.7, deckY + 1.3, 0]}>
             <boxGeometry args={[0.14, 0.12, length]} />
-            <meshStandardMaterial color="#ff5a3d" emissive="#ff5a3d" emissiveIntensity={2.6} toneMapped={false} />
+            <meshStandardMaterial color="#ff5a3d" emissive="#ff5a3d" emissiveIntensity={1.1} toneMapped={false} />
           </mesh>
         </group>
       ))}
       {/* red/white tail-light river down the deck */}
       <mesh position={[1.2, deckY + 0.55, 0]}>
         <boxGeometry args={[0.5, 0.06, length]} />
-        <meshStandardMaterial color="#ff2a2a" emissive="#ff2a2a" emissiveIntensity={3} toneMapped={false} />
+        <meshStandardMaterial color="#ff2a2a" emissive="#ff2a2a" emissiveIntensity={1.4} toneMapped={false} />
       </mesh>
       <mesh position={[-1.2, deckY + 0.55, 0]}>
         <boxGeometry args={[0.5, 0.06, length]} />
@@ -121,7 +121,7 @@ function HangingBanner({ position, yaw, seed }: { position: [number, number, num
       {/* banner face */}
       <mesh position={[0, -h / 2, 0]}>
         <planeGeometry args={[1.1, h]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={3.4} toneMapped={false} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.2} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
       {/* dark backing */}
       <mesh position={[0, -h / 2, -0.05]}>
@@ -141,7 +141,7 @@ function ShopFront({ position, yaw, seed }: { position: [number, number, number]
       {/* under-awning glow strip */}
       <mesh position={[0, 2.6, 0]}>
         <boxGeometry args={[4.4, 0.18, 0.1]} />
-        <meshStandardMaterial color={c1} emissive={c1} emissiveIntensity={3.2} toneMapped={false} />
+        <meshStandardMaterial color={c1} emissive={c1} emissiveIntensity={1.2} toneMapped={false} />
       </mesh>
       {/* lit shop window */}
       <mesh position={[0, 1.3, 0.02]}>
@@ -151,7 +151,7 @@ function ShopFront({ position, yaw, seed }: { position: [number, number, number]
       {/* small horizontal sign above */}
       <mesh position={[-1, 3.4, 0.05]}>
         <planeGeometry args={[1.8, 0.7]} />
-        <meshStandardMaterial color={c2} emissive={c2} emissiveIntensity={3.4} toneMapped={false} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={c2} emissive={c2} emissiveIntensity={1.2} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
     </group>
   )
@@ -169,7 +169,7 @@ function VendingBox({ position, yaw, seed }: { position: [number, number, number
       {/* glowing front panel */}
       <mesh position={[0, 1, 0.37]}>
         <planeGeometry args={[0.7, 1.4]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2.8} toneMapped={false} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.1} toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
     </group>
   )
@@ -203,7 +203,7 @@ function Gantry({ position, yaw }: { position: [number, number, number]; yaw: nu
             <meshStandardMaterial
               color={i === 1 ? '#3dff88' : '#22e0ff'}
               emissive={i === 1 ? '#3dff88' : '#22e0ff'}
-              emissiveIntensity={2.8}
+              emissiveIntensity={1.1}
               toneMapped={false}
               side={THREE.DoubleSide}
             />

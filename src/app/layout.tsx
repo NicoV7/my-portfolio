@@ -28,16 +28,17 @@ const siteUrl = 'https://nicovega.dev'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Nico Vega — Founding Engineer',
+    default: 'Nico Vega — Full Stack Engineer and Applied AI',
     template: '%s — Nico Vega',
   },
   description:
-    "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25. Building health-automation and agentic systems in San Francisco.",
+    "Full Stack Engineer and Applied AI. UC Berkeley CS '25. Building agentic and health-automation systems in San Francisco.",
   authors: [{ name: 'Nicolas Vega' }],
   keywords: [
     'Nico Vega',
     'Nicolas Vega',
-    'Founding Engineer',
+    'Full Stack Engineer',
+    'Applied AI',
     'AI engineer',
     'full-stack engineer',
     'UC Berkeley',
@@ -47,15 +48,15 @@ export const metadata: Metadata = {
     type: 'website',
     url: siteUrl,
     siteName: 'Nico Vega',
-    title: 'Nico Vega — Founding Engineer',
+    title: 'Nico Vega — Full Stack Engineer and Applied AI',
     description:
-      "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25.",
+      "Full Stack Engineer and Applied AI. UC Berkeley CS '25.",
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nico Vega — Founding Engineer',
+    title: 'Nico Vega — Full Stack Engineer and Applied AI',
     description:
-      "AI-native full-stack engineer. Founding Engineer @ Ambra, UC Berkeley CS '25.",
+      "Full Stack Engineer and Applied AI. UC Berkeley CS '25.",
   },
 }
 
@@ -69,7 +70,7 @@ const personJsonLd = {
   '@type': 'Person',
   name: 'Nicolas Vega',
   alternateName: 'Nico Vega',
-  jobTitle: 'Founding Engineer',
+  jobTitle: 'Full Stack Engineer and Applied AI',
   url: siteUrl,
   address: { '@type': 'PostalAddress', addressLocality: 'San Francisco', addressRegion: 'CA' },
   alumniOf: 'University of California, Berkeley',

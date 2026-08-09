@@ -130,7 +130,8 @@ export function useDriveProgress(
     cancelTween()
     if (Math.abs(to - from) < 1) return
     // Long eased tween (vs native ~400ms) so progress crawls the seam and the warp reads as one push.
-    const DURATION = 1800
+    // Slowed per feedback ("transitions too fast") — the seam beat now has room to breathe.
+    const DURATION = 3000
     const start = performance.now()
     const step = (now: number) => {
       const t = Math.min(1, (now - start) / DURATION)
@@ -193,7 +194,7 @@ export function useDriveProgress(
         return
       }
       goTo(cur + 1)
-    }, 3800)
+    }, 6200)
     return () => window.clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playing, count])

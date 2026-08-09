@@ -38,6 +38,11 @@ export interface PosterStopData {
   media?: PosterMedia[]
   /** which side the car print sits on; consecutive posters alternate */
   layout?: 'left' | 'right'
+  /** company website, surfaced in the dossier as a VISIT link */
+  link?: string
+  /** role + year for the dossier side-frame (from milestones) */
+  role?: string
+  year?: string
   art: { bg: string; car?: string }
   theme: { paper: string; ink: string; accent: string }
 }
@@ -47,9 +52,12 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'berkeley',
     style: 'postcard',
-    masthead: 'GREETINGS FROM BERKELEY',
+    masthead: 'UC BERKELEY',
     issue: 'NO. 01 / 2022-2025',
     side: 'ORIGIN STORY',
+    role: 'B.A. Computer Science',
+    year: '2022-2025',
+    link: 'https://www.berkeley.edu',
     lines: [
       { text: 'FIRST-GEN TRANSFER', sub: 'CCSF (3.94, three degrees) to Berkeley CS', kind: 'lead' },
       { text: "B.A. COMPUTER SCIENCE '25", kind: 'line' },
@@ -62,9 +70,12 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'desert',
     style: 'postcard',
-    masthead: 'FARMERS COUNTRY',
+    masthead: 'FARMERS INSURANCE',
     issue: 'NO. 02 / 2023',
     side: 'SUMMER INTERNSHIP',
+    role: 'Software Engineer Intern',
+    year: '2023',
+    link: 'https://www.farmers.com',
     lines: [
       { text: '$504K SAVED ANNUALLY', sub: 'the Salesforce live-chat gateway workaround', kind: 'lead' },
       { text: 'DEPLOYED NATIONALLY', kind: 'line' },
@@ -77,9 +88,12 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'coast',
     style: 'deco',
-    masthead: 'THE WOGO RUN',
+    masthead: 'WOGO',
     issue: 'NO. 03 / 2025',
     side: 'COASTAL SPRINT',
+    role: 'Founding Software Engineer',
+    year: '2025',
+    link: 'https://thewogo.com',
     lines: [
       { text: 'SOLO-SHIPPED IN 3 MONTHS', sub: 'web, iOS, Android; sole developer, 10% equity', kind: 'lead' },
       { text: '99.9% UPTIME UNDER $100/MO', kind: 'line' },
@@ -92,9 +106,11 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'fuji',
     style: 'fuji',
-    masthead: 'YNLD SESSION',
+    masthead: 'YNLD TRUST',
     issue: 'NO. 04 / 2025-2026',
     side: 'TRADING DESK',
+    role: 'AI Engineer (Contract)',
+    year: '2025-2026',
     lines: [
       { text: '10% AVERAGE RETURN', sub: 'trading decisions gated by evals and governance', kind: 'lead' },
       { text: 'MARKET DATA TO JUDGMENT', kind: 'line' },
@@ -107,9 +123,12 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'jdm-corgi',
     style: 'jdm',
-    masthead: 'NICO VEGA',
+    masthead: 'CORGI',
     issue: 'NO. 05 / 2026',
     side: 'FULL-STACK ENGINEER',
+    role: 'Full Stack Engineer',
+    year: '2026',
+    link: 'https://www.corgi.insure',
     lines: [
       { text: '$10M ATTRIBUTED', sub: 'the Shopify B2C pipeline, shipped in 2 days', kind: 'lead' },
       { text: '82% CLAIMS CLASSIFIER', sub: 'approve / partial / deny, XGBoost + ChromaDB', kind: 'line' },
@@ -123,9 +142,12 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'rally',
     style: 'rally',
-    masthead: 'AGENTIC STAGE',
+    masthead: 'AGENTIC IDE',
     issue: 'NO. 06 / 2026',
     side: 'FOUNDER STAGE',
+    role: 'Founder',
+    year: '2026',
+    link: 'https://aideapp.dev',
     lines: [
       { text: '250+ CONCURRENT USERS', sub: 'shipped to production in 21 days, solo founder', kind: 'lead' },
       { text: 'MICROSOFT FOR STARTUPS, WEEK ONE', kind: 'line' },
@@ -139,8 +161,11 @@ export const POSTERS: PosterStopData[] = [
   {
     key: 'closing',
     style: 'closing',
-    masthead: 'PRESENT DAY',
+    masthead: 'AMBRA',
     issue: 'NO. 07 / AMBRA911',
+    role: 'Founding Engineer',
+    year: '2026',
+    link: 'https://ambra911.com',
     lines: [
       { text: 'FOUNDING ENGINEER', sub: 'browser agents with tool-layer safety, EDI pipelines, voice agents', kind: 'lead' },
       { text: '65 PRS IN 4 WEEKS', kind: 'line' },

@@ -12,7 +12,7 @@ export default function Footer() {
             NICO&nbsp;VEGA
           </p>
           <p className="mt-3 max-w-xs text-sm text-silver">
-            {profile.title} @ Ambra · {profile.location}
+            {profile.title} · {profile.location}
           </p>
         </div>
 

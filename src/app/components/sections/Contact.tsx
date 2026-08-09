@@ -17,7 +17,7 @@ export default function Contact() {
             worth the drive.
           </h2>
           <p className="mt-5 font-mono text-sm tracking-[0.12em] text-silver">
-            {profile.title.toUpperCase()} @ AMBRA · {profile.location.toUpperCase()}
+            {profile.title.toUpperCase()} · {profile.location.toUpperCase()}
           </p>
         </div>
 

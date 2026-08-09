@@ -97,14 +97,14 @@ export default function HeroDrive() {
         {/* Persona 5-style graphic seam beat (slash panels + zoom + location card) */}
         <DriveTransition progressRef={progressRef} />
 
-        {/* Intro headline over the scene */}
+        {/* Intro headline over the white scene — dark ink so it reads on the canvas */}
         <div className="pointer-events-none absolute inset-x-0 top-24 z-20 px-6">
           <div className="mx-auto max-w-[var(--content)]">
-            <TextScramble text="THE DRIVE SO FAR" className="eyebrow" />
-            <h1 className="mt-3 max-w-xl font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] text-white-soft">
+            <TextScramble text="THE DRIVE SO FAR" className="font-mono text-xs tracking-[0.3em] text-[#6a6660]" />
+            <h1 className="mt-3 max-w-xl font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] text-[#141318]">
               {profile.name}
             </h1>
-            <p className="mt-2 font-mono text-sm tracking-[0.15em] text-accent">
+            <p className="mt-2 font-mono text-sm tracking-[0.15em] text-[#8a5a2b]">
               {profile.title.toUpperCase()} · {profile.tagline.toUpperCase()}
             </p>
           </div>

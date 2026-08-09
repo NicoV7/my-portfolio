@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { curve, progressToT, REGIONS, type RegionKey } from '../curve'
+import { makeRamp } from '../toonRamp'
 
 /** CC0 GLB kits under public/models/kits/ (Kenney City Kit, etc. — see CREDITS). */
 export const KIT = '/models/kits'
@@ -240,11 +241,12 @@ export function Tunnel({
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
+    // gouache pass: soft pulse — the old 4x wash tinted whole nearby scenes
     for (let i = 0; i < BARS; i++) {
       const w = Math.sin(t * 6 - i * 0.9)
-      barMats[i].emissiveIntensity = 0.5 + Math.max(0, w) * 3.6
+      barMats[i].emissiveIntensity = 0.3 + Math.max(0, w) * 1.2
     }
-    const p = 2.2 + Math.sin(t * 4) * 0.9
+    const p = 1.1 + Math.sin(t * 4) * 0.35
     stripMats[0].emissiveIntensity = p
     stripMats[1].emissiveIntensity = p
   })
@@ -287,6 +289,58 @@ export function Tunnel({
 // (and materials, unless a tint forces a per-instance clone) so many instances of
 // one GLB stay cheap. No drei `<Instances>` (crashes here).
 
+/**
+ * Gouache restyle spec for a kit model. When present, every mesh material is
+ * swapped for a matte `MeshToonMaterial` (no texture maps, no metalness) whose
+ * `gradientMap` is a smooth multi-stop ramp (see toonRamp.ts — soft gouache
+ * shading, not hard cel bands). Base colors come from mapping each part's
+ * existing dominant material color onto the scene `palette` (nearest-of-palette
+ * quantization), so kit assets pick up the reference frame's palette instead of
+ * shipping their own colors.
+ */
+export interface GouacheSpec {
+  /** sRGB stops for the toon lighting ramp, shadow → highlight */
+  ramp: string[]
+  /** scene palette; each part's material color snaps to the nearest entry */
+  palette?: string[]
+}
+
+// Toon materials are shared across every kit instance that resolves to the same
+// (color, ramp, emissive) triple — clones stay cheap even with gouache on.
+const TOON_CACHE = new Map<string, THREE.MeshToonMaterial>()
+
+function toonMat(
+  color: THREE.Color,
+  ramp: string[],
+  emissive?: string,
+  emissiveIntensity = 1
+): THREE.MeshToonMaterial {
+  const key = `${color.getHexString()}|${ramp.join(',')}|${emissive ?? ''}|${emissive ? emissiveIntensity : 0}`
+  const hit = TOON_CACHE.get(key)
+  if (hit) return hit
+  const m = new THREE.MeshToonMaterial({ color: color.clone(), gradientMap: makeRamp(ramp) })
+  if (emissive) {
+    m.emissive.set(emissive)
+    m.emissiveIntensity = emissiveIntensity
+  }
+  TOON_CACHE.set(key, m)
+  return m
+}
+
+/** Nearest palette entry by RGB distance (both sides in linear working space). */
+function nearestOf(palette: THREE.Color[], c: THREE.Color): THREE.Color {
+  let best = palette[0]
+  let bd = Infinity
+  for (const p of palette) {
+    const d = (p.r - c.r) ** 2 + (p.g - c.g) ** 2 + (p.b - c.b) ** 2
+    if (d < bd) {
+      bd = d
+      best = p
+    }
+  }
+  return best
+}
+
 export interface KitOpts {
   /** target world height (m); the model scales uniformly to hit it */
   height?: number
@@ -295,6 +349,8 @@ export interface KitOpts {
   /** per-instance emissive (e.g. lit night windows) */
   emissive?: string
   emissiveIntensity?: number
+  /** matte toon restyle — see GouacheSpec (pass a module-const for stability) */
+  gouache?: GouacheSpec
 }
 
 export function KitModel({
@@ -305,6 +361,7 @@ export function KitModel({
   tint,
   emissive,
   emissiveIntensity = 1,
+  gouache,
 }: {
   url: string
   position: [number, number, number]
@@ -321,14 +378,28 @@ export function KitModel({
     const box = new THREE.Box3().setFromObject(root)
     const c = box.getCenter(new THREE.Vector3())
     root.position.set(-c.x, -box.min.y, -c.z) // seat base on the ground, centre X/Z
+    const palette = gouache?.palette?.map((h) => new THREE.Color(h))
     const recolour = tint || emissive
     root.traverse((o) => {
       if (!(o instanceof THREE.Mesh)) return
       o.castShadow = true
       o.receiveShadow = true
-      if (!recolour) return
       const wasArray = Array.isArray(o.material)
       const mats = wasArray ? (o.material as THREE.Material[]) : [o.material as THREE.Material]
+      if (gouache) {
+        // Gouache mode: matte toon materials, flat base color per part, no
+        // texture maps. Base color = the part's dominant material color (or the
+        // explicit tint) snapped to the scene palette.
+        const swapped = mats.map((m) => {
+          const src = m as THREE.MeshStandardMaterial
+          const base = tint ? new THREE.Color(tint) : src.color ? src.color.clone() : new THREE.Color('#888888')
+          const col = palette ? nearestOf(palette, base) : base
+          return toonMat(col, gouache.ramp, emissive, emissiveIntensity)
+        })
+        o.material = wasArray ? swapped : swapped[0]
+        return
+      }
+      if (!recolour) return
       const cloned = mats.map((m) => {
         const c2 = (m as THREE.MeshStandardMaterial).clone()
         if (tint) c2.color.set(tint)
@@ -341,7 +412,7 @@ export function KitModel({
       o.material = wasArray ? cloned : cloned[0]
     })
     return root
-  }, [scene, height, tint, emissive, emissiveIntensity])
+  }, [scene, height, tint, emissive, emissiveIntensity, gouache])
   return (
     <group position={position} rotation={[0, yaw, 0]}>
       <primitive object={obj} />
@@ -413,6 +484,7 @@ export function CitySkyline({
   farSide = 34,
   midSide = 23,
   nearSide = 15,
+  gouache,
 }: {
   band: RegionKey
   night?: number
@@ -420,6 +492,7 @@ export function CitySkyline({
   farSide?: number
   midSide?: number
   nearSide?: number
+  gouache?: GouacheSpec
 }) {
   const items = useMemo(() => {
     const out: { url: string; position: [number, number, number]; yaw: number; h: number }[] = []
@@ -452,6 +525,7 @@ export function CitySkyline({
           height={it.h}
           emissive={night ? windowColor : undefined}
           emissiveIntensity={night ? 0.05 : 0}
+          gouache={gouache}
         />
       ))}
     </group>

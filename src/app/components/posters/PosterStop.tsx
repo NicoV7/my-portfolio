@@ -1,23 +1,25 @@
 'use client'
 
 import Image from 'next/image'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { PosterStopData, FeatureLink } from './posterRoute'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/** deco speed-line geometry: thin skewed streaks sweeping the mid layer */
+/** deco speed-line geometry: thin skewed streaks sweeping the mid layer.
+ *  widths are container units (cqw) so the poster is size-agnostic: identical
+ *  proportions whether it fills the viewport or rides in a print frame. */
 const SPEED_LINES = [
-  { top: '14%', left: '-12%', width: '48vw', skew: -9 },
-  { top: '22%', left: '4%', width: '60vw', skew: -9 },
-  { top: '30%', left: '-6%', width: '42vw', skew: -8 },
-  { top: '46%', left: '30%', width: '54vw', skew: -10 },
-  { top: '56%', left: '-10%', width: '38vw', skew: -8 },
-  { top: '64%', left: '18%', width: '58vw', skew: -9 },
-  { top: '76%', left: '-4%', width: '46vw', skew: -10 },
-  { top: '84%', left: '26%', width: '50vw', skew: -8 },
+  { top: '14%', left: '-12%', width: '48cqw', skew: -9 },
+  { top: '22%', left: '4%', width: '60cqw', skew: -9 },
+  { top: '30%', left: '-6%', width: '42cqw', skew: -8 },
+  { top: '46%', left: '30%', width: '54cqw', skew: -10 },
+  { top: '56%', left: '-10%', width: '38cqw', skew: -8 },
+  { top: '64%', left: '18%', width: '58cqw', skew: -9 },
+  { top: '76%', left: '-4%', width: '46cqw', skew: -10 },
+  { top: '84%', left: '26%', width: '50cqw', skew: -8 },
 ]
 
 /** per-style vignette dressing; rally stays flat (no vignette at all) */
@@ -37,13 +39,29 @@ const VIGNETTES: Record<string, string | null> = {
  * adds parallax depth while the visitor reads the cover.
  * The 'jdm' variant is the approved gate layout and renders unchanged.
  */
-export default function PosterStop({ data }: { data: PosterStopData }) {
+export default function PosterStop({
+  data,
+  framed = false,
+  priority = false,
+  frameContent = 'full',
+}: {
+  data: PosterStopData
+  /** true = rendered inside a map print frame (size-driven by wrapper); false = full-viewport */
+  framed?: boolean
+  /** eager-load the bg image (only the first atlas stop should set this) */
+  priority?: boolean
+  /** 'headline-only' keeps just masthead + lead on the photo (rest moves to the dossier) */
+  frameContent?: 'full' | 'headline-only'
+}) {
   const scene = useRef<HTMLElement>(null)
   const style = data.style
   const flip = data.layout === 'right'
   const heavySans = style === 'fuji' || style === 'closing' || style === 'rally'
   const hasSun = style === 'fuji' || style === 'closing'
   const centered = style === 'rally'
+  const headlineOnly = frameContent === 'headline-only'
+  const [bgFailed, setBgFailed] = useState(false)
+  const [carFailed, setCarFailed] = useState(false)
 
   useLayoutEffect(() => {
     if (!scene.current) return
@@ -131,13 +149,26 @@ export default function PosterStop({ data }: { data: PosterStopData }) {
     <section
       ref={scene}
       id={`poster-${data.key}`}
-      className="relative min-h-[100dvh] overflow-hidden"
+      className={`@container relative w-full overflow-hidden ${framed ? 'h-full' : 'min-h-[100dvh]'}`}
       style={{ background: t.paper, color: t.ink }}
       aria-label={`${data.masthead}: ${lead?.text ?? ''}`}
     >
-      {/* depth-0: generated cover art (bg IS content, kept per asset rules) */}
-      <div className="p-bg absolute inset-0" aria-hidden="true">
-        <Image src={data.art.bg} alt="" fill priority className="object-cover" sizes="100vw" />
+      {/* depth-0: generated cover art (bg IS content, kept per asset rules).
+          paper fill shows until decode; on error the paper + DOM type still read
+          as an intentional typographic print rather than a broken image. */}
+      <div className="p-bg absolute inset-0" aria-hidden="true" style={{ background: t.paper }}>
+        {!bgFailed && (
+          <Image
+            src={data.art.bg}
+            alt=""
+            fill
+            priority={priority}
+            loading={priority ? undefined : 'lazy'}
+            onError={() => setBgFailed(true)}
+            className="object-cover"
+            sizes={framed ? '(max-width: 768px) 92vw, min(46vw, 640px)' : '100vw'}
+          />
+        )}
       </div>
 
       {/* depth-1: giant sun disc (fuji field + mint closing), breathes behind the car */}
@@ -146,12 +177,12 @@ export default function PosterStop({ data }: { data: PosterStopData }) {
           className="p-sun absolute"
           aria-hidden="true"
           style={{
-            width: '58vmin',
-            height: '58vmin',
+            width: '52cqw',
+            height: '52cqw',
             borderRadius: '50%',
-            top: '10vh',
+            top: '10%',
             left: '50%',
-            marginLeft: '-29vmin',
+            marginLeft: '-26cqw',
             // closing's bg art already paints a sun: render a soft mint glow, not a second disc
             background:
               style === 'closing'
@@ -183,19 +214,40 @@ export default function PosterStop({ data }: { data: PosterStopData }) {
       )}
 
       {/* depth-3: the car cover photo, a tilted glossy print */}
-      {data.art.car && (
+      {data.art.car && !carFailed && (
         <div
-          className={`p-car absolute bottom-[-4%] w-[42vw] max-w-[520px] min-w-[260px] ${flip ? 'right-[4%]' : 'left-[4%]'} ${style === 'rally' ? '' : 'shadow-[0_30px_80px_rgba(0,0,0,0.45)]'}`}
+          className={`p-car absolute bottom-[-4%] w-[42cqw] max-w-[520px] ${flip ? 'right-[4%]' : 'left-[4%]'} ${style === 'rally' ? '' : 'shadow-[0_30px_80px_rgba(0,0,0,0.45)]'}`}
           style={{ rotate: flip ? '2deg' : '-2deg' }}
         >
-          <Image src={data.art.car} alt="White Mercedes C63 AMG cover photo" width={880} height={1174} className="h-auto w-full border-[10px]" style={{ borderColor: t.paper }} />
+          <Image
+            src={data.art.car}
+            alt="White Mercedes C63 AMG cover photo"
+            width={880}
+            height={1174}
+            loading={priority ? undefined : 'lazy'}
+            onError={() => setCarFailed(true)}
+            className="h-auto w-full"
+            style={{ border: `clamp(4px, 1cqw, 10px) solid ${t.paper}` }}
+            sizes={framed ? '(max-width: 768px) 40vw, min(20vw, 280px)' : '42vw'}
+          />
         </div>
       )}
 
-      {/* depth-4: live type, the cover lines are real content */}
-      <div className="absolute inset-0 px-[6vw] pb-[4vh] pt-[10vh]">
-        <div className={`overflow-hidden ${centered ? 'text-center' : ''}`}>
-          <h2 className={`p-masthead leading-none tracking-tight ${heavySans ? 'font-sans font-black' : 'font-serif'}`} style={{ fontSize: 'clamp(3.5rem, 9vw, 8rem)', color: t.ink, textShadow: `0 2px 0 ${t.paper}, 0 4px 28px ${t.paper}` }}>
+      {/* depth-4: live type, the cover lines are real content.
+          all sizing in container units (cqw) so the composition holds at any
+          frame size; absolute children anchor to % of the section height. */}
+      <div className="absolute inset-0 px-[6cqw] pb-[4cqw] pt-[8cqw]">
+        {/* headline-only prints (atlas) get a paper scrim so the masthead + lead
+            read cleanly over the art; body copy moves to the dossier side-frame */}
+        {headlineOnly && (
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden="true"
+            style={{ background: `linear-gradient(180deg, ${t.paper}f2 0%, ${t.paper}b3 26%, transparent 58%)` }}
+          />
+        )}
+        <div className={`relative overflow-hidden ${centered ? 'text-center' : ''}`}>
+          <h2 className={`p-masthead leading-none tracking-tight ${heavySans ? 'font-sans font-black' : 'font-serif'}`} style={{ fontSize: 'clamp(1.4rem, 9cqw, 8rem)', color: t.ink, textShadow: `0 2px 0 ${t.paper}, 0 4px 28px ${t.paper}` }}>
             {style === 'rally'
               ? data.masthead.split(' ').map((w, i) => (
                   <span key={`${w}-${i}`} className="p-mast-word inline-block" style={{ marginRight: '0.24em' }}>
@@ -205,38 +257,40 @@ export default function PosterStop({ data }: { data: PosterStopData }) {
               : data.masthead}
           </h2>
         </div>
-        <p className={`mt-1 font-mono text-xs tracking-[0.3em] ${centered ? 'text-center' : ''}`} style={{ color: t.accent, textShadow: `0 1px 0 ${t.paper}, 0 0 8px ${t.paper}` }}>{data.issue}</p>
+        <p className={`relative mt-1 font-mono tracking-[0.3em] ${centered ? 'text-center' : ''}`} style={{ fontSize: 'clamp(0.5rem, 1.1cqw, 0.75rem)', color: t.accent, textShadow: `0 1px 0 ${t.paper}, 0 0 8px ${t.paper}` }}>{data.issue}</p>
 
         {lead && (
-          <div className={`p-line mt-[6vh] ${centered ? 'mx-auto max-w-[52vw] text-center' : 'max-w-[46vw]'}`}>
-            <p className="font-sans font-extrabold leading-[0.95]" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4.8rem)', color: t.accent, textShadow: `0 2px 0 ${t.paper}, 0 0 18px ${t.paper}` }}>{lead.text}</p>
-            {lead.sub && <p className="mt-2 font-mono text-sm font-bold" style={{ color: t.ink, textShadow: `0 1px 0 ${t.paper}, 0 0 10px ${t.paper}` }}>{lead.sub}</p>}
+          <div className={`p-line relative mt-[6cqw] ${centered ? 'mx-auto max-w-[52cqw] text-center' : 'max-w-[46cqw]'}`}>
+            <p className="font-sans font-extrabold leading-[0.95]" style={{ fontSize: 'clamp(1.1rem, 5.5cqw, 4.8rem)', color: t.accent, textShadow: `0 2px 0 ${t.paper}, 0 0 18px ${t.paper}` }}>{lead.text}</p>
+            {lead.sub && !headlineOnly && <p className="mt-2 font-mono font-bold" style={{ fontSize: 'clamp(0.55rem, 1.4cqw, 0.875rem)', color: t.ink, textShadow: `0 1px 0 ${t.paper}, 0 0 10px ${t.paper}` }}>{lead.sub}</p>}
           </div>
         )}
 
-        <div className={`mt-[4vh] flex flex-col gap-3 ${centered ? 'mx-auto max-w-[62vw] items-center text-center' : 'max-w-[40vw]'}`}>
-          {rest.map((l) => (
-            <div key={l.text} className="p-line">
-              <p className="font-sans text-xl font-bold md:text-2xl" style={{ textShadow: `0 1px 0 ${t.paper}, 0 0 12px ${t.paper}` }}>{l.text}</p>
-              {l.sub && <p className="font-mono text-xs" style={{ color: t.ink, opacity: 0.9, textShadow: `0 1px 0 ${t.paper}, 0 0 8px ${t.paper}` }}>{l.sub}</p>}
-            </div>
-          ))}
-        </div>
+        {!headlineOnly && (
+          <div className={`mt-[4cqw] flex flex-col gap-3 ${centered ? 'mx-auto max-w-[62cqw] items-center text-center' : 'max-w-[40cqw]'}`}>
+            {rest.map((l) => (
+              <div key={l.text} className="p-line">
+                <p className="font-sans font-bold" style={{ fontSize: 'clamp(0.8rem, 2.6cqw, 1.5rem)', textShadow: `0 1px 0 ${t.paper}, 0 0 12px ${t.paper}` }}>{l.text}</p>
+                {l.sub && <p className="font-mono" style={{ fontSize: 'clamp(0.5rem, 1.1cqw, 0.75rem)', color: t.ink, opacity: 0.9, textShadow: `0 1px 0 ${t.paper}, 0 0 8px ${t.paper}` }}>{l.sub}</p>}
+              </div>
+            ))}
+          </div>
+        )}
 
-        {chip && (
-          <div className={`p-line absolute top-[12vh] rotate-6 border-4 px-4 py-2 font-sans text-lg font-black ${flip ? 'left-[5vw]' : 'right-[5vw]'}`} style={{ borderColor: t.accent, color: t.accent }}>
+        {chip && !headlineOnly && (
+          <div className={`p-line absolute top-[12%] rotate-6 border-4 px-4 py-2 font-sans font-black ${flip ? 'left-[5cqw]' : 'right-[5cqw]'}`} style={{ fontSize: 'clamp(0.7rem, 2.2cqw, 1.125rem)', borderColor: t.accent, color: t.accent }}>
             {chip.text}
           </div>
         )}
 
-        {data.side && (
-          <p className={`p-side absolute top-[30vh] font-sans text-2xl font-black tracking-widest [writing-mode:vertical-rl] ${flip ? 'left-[2.5vw]' : 'right-[2.5vw]'}`} style={{ color: t.ink }}>
+        {data.side && !headlineOnly && (
+          <p className={`p-side absolute top-[30%] font-sans font-black tracking-widest [writing-mode:vertical-rl] ${flip ? 'left-[2.5cqw]' : 'right-[2.5cqw]'}`} style={{ fontSize: 'clamp(0.8rem, 2.4cqw, 1.5rem)', color: t.ink }}>
             {data.side}
           </p>
         )}
 
-        {data.features && (
-          <ul className={`absolute bottom-[3vh] flex max-w-[44vw] flex-wrap gap-x-5 gap-y-1 ${flip ? 'left-[4vw] justify-start' : 'right-[4vw] justify-end'}`}>
+        {data.features && !headlineOnly && (
+          <ul className={`absolute bottom-[3%] flex max-w-[44cqw] flex-wrap gap-x-5 gap-y-1 ${flip ? 'left-[4cqw] justify-start' : 'right-[4cqw] justify-end'}`}>
             {data.features.map((f) =>
               typeof f === 'string' ? (
                 <li key={f} className="p-feature font-mono text-[11px] tracking-wide" style={{ color: t.paper, textShadow: '0 1px 2px rgba(0,0,0,0.6)' }}>{f}</li>
@@ -249,12 +303,12 @@ export default function PosterStop({ data }: { data: PosterStopData }) {
       </div>
 
       {/* depth-4.5: era-styled media inset prints (bottom-center, capped at 3) */}
-      {media && media.length > 0 && (
-        <div className="absolute bottom-[4vh] left-1/2 z-10 flex -translate-x-1/2 items-end gap-4">
+      {media && media.length > 0 && !headlineOnly && (
+        <div className="absolute bottom-[4%] left-1/2 z-10 flex -translate-x-1/2 items-end gap-4">
           {media.map((m, i) => (
             <figure
               key={m.src}
-              className="p-media w-[13vw] min-w-[130px] max-w-[190px] shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+              className="p-media w-[13cqw] max-w-[190px] shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
               style={{ rotate: mediaTilt[i], background: t.paper, padding: '6px 6px 4px' }}
             >
               {m.type === 'image' ? (

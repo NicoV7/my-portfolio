@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -14,6 +15,7 @@ const LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -31,6 +33,10 @@ export default function Navbar() {
       document.body.style.overflow = ''
     }
   }, [open])
+
+  // the atlas home page renders its own light identity masthead; the dark site
+  // nav would collide with it (and its light links vanish on white paper)
+  if (pathname === '/') return null
 
   return (
     <>

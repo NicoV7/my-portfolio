@@ -4,13 +4,13 @@ export const profile: Profile = {
   name: 'Nicolas Vega',
   shortName: 'Nico Vega',
   pronouns: 'He/Him',
-  title: 'Founding Engineer',
+  title: 'Full Stack Engineer and Applied AI',
   tagline: 'AI-native full-stack engineer',
   location: 'San Francisco, California',
   bio: [
     'I grew up first-generation and low-income, with a disability that kept me out of school for weeks at a time. No one expected me to make it. I started at community college, transferred to UC Berkeley, and graduated with a degree in Computer Science.',
     'Since then I have been deep in the AI startup world — shipping production systems across social, fintech, insurance, and healthcare, and founding my own company to fight the technical debt that AI-assisted code leaves behind.',
-    'Today I am a Founding Engineer at Ambra, building health-automation infrastructure. I care about shipping fast without shipping slop: clean architecture, real tests, and systems that hold up under pressure.',
+    'Most recently I was a founding engineer at Ambra, building health-automation infrastructure. I care about shipping fast without shipping slop: clean architecture, real tests, and systems that hold up under pressure.',
   ],
   education: [
     {

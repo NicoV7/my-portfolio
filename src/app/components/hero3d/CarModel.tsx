@@ -59,11 +59,12 @@ export default function CarModel({
     const steer = THREE.MathUtils.clamp(d * STEER_GAIN, -MAX_STEER, MAX_STEER)
     for (const p of built.frontPivots) p.rotation.y = steer
 
-    // night-gated only (no daytime base) so day scenes stay fully unlit; rear
-    // runs hotter than front because the chase-cam mostly sees the tail
+    // night-gated only (no daytime base) so day scenes stay fully unlit. Front
+    // headlamps now read HOTTER than the tails: the "glowing red" note was the
+    // rear halos dominating the chase-cam — headlights must clearly be "on".
     const n = THREE.MathUtils.clamp(nightRef?.current ?? 0, 0, 1)
-    for (const lm of built.frontLensMats) lm.emissiveIntensity = n * 6
-    for (const lm of built.rearLensMats) lm.emissiveIntensity = n * 7.5
+    for (const lm of built.frontLensMats) lm.emissiveIntensity = n * 9
+    for (const lm of built.rearLensMats) lm.emissiveIntensity = n * 5
   })
 
   // Realtime CubeCamera reflections were too heavy with the full road-trip scene
@@ -115,11 +116,13 @@ function Headlights({ nightRef }: { nightRef?: RefObject<number> }) {
 
   useFrame(() => {
     const n = THREE.MathUtils.clamp(nightRef?.current ?? 0, 0, 1)
-    glowMat.opacity = n * 0.6
-    rearGlowMat.opacity = n * 0.5
+    // front headlamp bloom pushed up, rear red pulled down: the beams + road
+    // pools are the "lights on" cue, the tails a supporting accent (not the star)
+    glowMat.opacity = n * 0.95
+    rearGlowMat.opacity = n * 0.32
     for (const s of spots.current) {
       if (!s) continue
-      s.intensity = n * 45
+      s.intensity = n * 75
       if (target.current) s.target = target.current
     }
   })
@@ -137,10 +140,10 @@ function Headlights({ nightRef }: { nightRef?: RefObject<number> }) {
             }}
             position={[0, 0, 0]}
             color="#eaf6ff"
-            angle={0.5}
-            penumbra={0.75}
-            distance={28}
-            decay={1.35}
+            angle={0.62}
+            penumbra={0.8}
+            distance={40}
+            decay={1.2}
             intensity={0}
           />
         </group>
