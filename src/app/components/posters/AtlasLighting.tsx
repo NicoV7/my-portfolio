@@ -48,6 +48,8 @@ export default function AtlasLighting({
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
         shadow-bias={-0.0004}
+        shadow-radius={8}
+        shadow-blurSamples={16}
         shadow-camera-near={1}
         shadow-camera-far={45}
         shadow-camera-left={-7}

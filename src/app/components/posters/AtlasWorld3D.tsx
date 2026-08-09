@@ -3,6 +3,7 @@
 import * as THREE from 'three'
 import { Suspense, useMemo, useRef, Component, type ReactNode, type RefObject } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { EffectComposer, N8AO } from '@react-three/postprocessing'
 import { CarBody } from './CarMarker3D'
 import AtlasLighting from './AtlasLighting'
 
@@ -138,7 +139,7 @@ export default function AtlasWorld3D({
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
       <CanvasBoundary>
         <Canvas
-          shadows
+          shadows="variance"
           dpr={[1, 1.5]}
           gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
           camera={{ position: [0, 22, 6], fov: 32, near: 0.1, far: 120 }}
@@ -151,6 +152,11 @@ export default function AtlasWorld3D({
             <AtlasLighting targetRef={carGroup} lightSide={lightSide} />
             <Ground />
             <CarOnGround groupRef={carGroup} trackerRef={trackerRef} finaleOn={finaleOn} />
+            {/* subtle contact/ambient occlusion — small radius so the white ground
+                doesn't grey; mostly darkens the car's contact + crevices */}
+            <EffectComposer enableNormalPass={false}>
+              <N8AO aoRadius={1.1} intensity={2.6} distanceFalloff={1} halfRes color="#0a0a0a" />
+            </EffectComposer>
           </Suspense>
         </Canvas>
       </CanvasBoundary>
