@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type RefObject } from 'react'
-import { STOP_PROGRESS } from '../app/components/hero3d/curve'
+import { STOP_PROGRESS } from '../app/components/hero/heroScenes'
 
 const nearestStop = (p: number) => {
   let best = 0
@@ -52,9 +52,13 @@ export function useDriveProgress(
   const slipRef = useRef(0)
   const dirRef = useRef(0)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [playing, setPlaying] = useState(false)
+  const activeIndexRef = useRef(0)
+  // Starts true: with no controller bar the drive self-runs like a slideshow;
+  // any wheel/touch hands control to the user (listeners below pause it).
+  const [playing, setPlaying] = useState(true)
   const playingRef = useRef(false)
   playingRef.current = playing
+  const tweenRef = useRef(0)
 
   const metrics = () => {
     const el = wrapRef.current
@@ -71,6 +75,7 @@ export function useDriveProgress(
       const p = Math.min(1, Math.max(0, (window.scrollY - m.top) / m.scrollable))
       progressRef.current = p
       const idx = nearestStop(p)
+      activeIndexRef.current = idx
       setActiveIndex((prev) => (prev === idx ? prev : idx))
     }
     onScroll()
@@ -111,17 +116,47 @@ export function useDriveProgress(
     return () => cancelAnimationFrame(raf)
   }, [])
 
+  const cancelTween = () => {
+    if (tweenRef.current) cancelAnimationFrame(tweenRef.current)
+    tweenRef.current = 0
+  }
+
   const goTo = (i: number) => {
     const m = metrics()
     if (!m) return
     const clamped = Math.min(count - 1, Math.max(0, i))
-    const y = m.top + STOP_PROGRESS[clamped] * m.scrollable
-    window.scrollTo({ top: y, behavior: 'smooth' })
+    const to = m.top + STOP_PROGRESS[clamped] * m.scrollable
+    const from = window.scrollY
+    cancelTween()
+    if (Math.abs(to - from) < 1) return
+    // Long eased tween (vs native ~400ms) so progress crawls the seam and the warp reads as one push.
+    const DURATION = 1800
+    const start = performance.now()
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / DURATION)
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+      window.scrollTo(0, from + (to - from) * eased)
+      tweenRef.current = t < 1 ? requestAnimationFrame(step) : 0
+    }
+    tweenRef.current = requestAnimationFrame(step)
   }
 
   // wrap so the drive loops (last → first, first → last)
   const next = () => goTo((activeIndex + 1) % count)
   const prev = () => goTo((activeIndex - 1 + count) % count)
+
+  // A real wheel/touch gesture hands control back to the user (scrollTo never fires these).
+  useEffect(() => {
+    const takeover = () => cancelTween()
+    window.addEventListener('wheel', takeover, { passive: true })
+    window.addEventListener('touchstart', takeover, { passive: true })
+    return () => {
+      window.removeEventListener('wheel', takeover)
+      window.removeEventListener('touchstart', takeover)
+      cancelTween()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // pause autoplay on any manual wheel/touch
   useEffect(() => {
@@ -138,12 +173,26 @@ export function useDriveProgress(
   // autoplay: advance to next stop on a timer
   useEffect(() => {
     if (!playing) return
+    // Skip ticks while the hero is off-screen — wheel/touch pause autoplay, but
+    // scrollbar/keyboard scrolling doesn't fire those, and without the bar the
+    // user has no way to stop the tween scroll-jacking the page below.
+    const heroInView = () => {
+      const el = wrapRef.current
+      if (!el) return false
+      const r = el.getBoundingClientRect()
+      return r.bottom > 0 && r.top < window.innerHeight
+    }
     const id = window.setInterval(() => {
-      if (!playingRef.current) return
-      setActiveIndex((cur) => {
-        goTo((cur + 1) % count) // wrap → the autoplay loops forever
-        return cur
-      })
+      if (!playingRef.current || !heroInView()) return
+      // No wrap: tweening back through the whole page replays every seam in
+      // reverse and fights region streaming — the story simply ends at the
+      // last stop (present day) and hands scroll back to the visitor.
+      const cur = activeIndexRef.current
+      if (cur >= count - 1) {
+        setPlaying(false)
+        return
+      }
+      goTo(cur + 1)
     }, 3800)
     return () => window.clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps

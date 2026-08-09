@@ -1,9 +1,9 @@
 import type { Metric } from './experience'
 
 /**
- * A stop on the 3D career drive. Display content only —
- * scene geometry (path + marker positions) lives in
- * src/app/components/hero3d/curve.ts, joined by array order.
+ * A stop on the career drive. Display content only —
+ * scene visuals live in src/app/components/hero/heroScenes.ts,
+ * joined by array order.
  */
 export interface Milestone {
   /** matches ExperienceItem.milestoneId where applicable */
