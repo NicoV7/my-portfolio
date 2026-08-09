@@ -15,7 +15,7 @@ export const profile: Profile = {
   education: [
     {
       school: 'University of California, Berkeley',
-      degree: "B.S. Computer Science '25",
+      degree: "B.A. Computer Science '25",
       note: 'Community-college transfer · first-generation',
     },
   ],
