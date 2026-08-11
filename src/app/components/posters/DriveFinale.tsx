@@ -1,116 +1,89 @@
 'use client'
 
-import { useMemo } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { projects } from '../../../data/projects'
 
 /**
- * The finale DOM overlay. It carries NO 3D canvas — the C63 that drives the
- * trail is the same element that zooms into this center gap (RouteMap animates
- * that shared wrapper on top of this overlay). Here we lay the pale Noomo
- * ground, the ghost headline, the notable-project links flanking the car, and
- * the link that scrolls to the in-page all-side-projects list.
+ * The finale menu (id="finale-menu"). NO 3D canvas + NO background — the pale 3D
+ * world (AtlasWorld3D, z-0) is the ground and the C63 orbits at viewport centre.
+ * A transparent menu WRAPPING that car: floating ink text of the NOTABLE projects,
+ * plus a SHOW ALL button that opens the full-list overlay. Opacity/visibility are
+ * driven imperatively by RouteMap's finale scrub (a React re-render can't clobber
+ * it); reduced motion has no scrub, so the initial style shows it statically.
  */
 
-const GROUND = 'linear-gradient(160deg, #e4e8f5 0%, #d3daee 45%, #c6cfe8 100%)'
 const INK = '#0b0b0f'
 
-const FEATURED_SLUGS = [
-  'smartcache',
-  'shaders-project',
-  'secure-file-sharing',
-  'collaborative-drawing-board',
-  'task-management-app',
+type FinaleProject = { title: string; href: string }
+
+// notable work, not the side-projects list (that lives in the SHOW ALL overlay)
+const NOTABLE: FinaleProject[] = [
+  { title: 'Yojimbo', href: 'https://yojimbo.site' },
+  { title: 'Personal Harness', href: 'https://github.com/NicoV7/Personal-Harness' },
+  { title: 'Berkeley AI Hackathon', href: 'https://github.com/NicoV7/BerkeleyAIHackathon2026' },
+  { title: 'Debate RPG', href: 'https://github.com/NicoV7/RedditHackathon' },
+  { title: 'YC Hackathon', href: 'https://github.com/NicoV7/GbrainHackathon' },
 ]
-
-type FinaleProject = { title: string; href: string; external: boolean }
-
-function useFeatured(): FinaleProject[] {
-  return useMemo(
-    () =>
-      FEATURED_SLUGS.map((slug) => {
-        const p = projects.find((x) => x.slug === slug)
-        const href = p?.links?.[0]?.url ?? '/projects'
-        return { title: p?.title ?? slug, href, external: href.startsWith('http') }
-      }),
-    []
-  )
-}
 
 function ProjectLink({ p, align }: { p: FinaleProject; align: 'left' | 'right' }) {
   return (
-    <div className={align === 'right' ? 'text-right' : 'text-left'}>
-      <Link
-        href={p.href}
-        target={p.external ? '_blank' : undefined}
-        rel={p.external ? 'noreferrer' : undefined}
-        className="group inline-flex items-baseline gap-2 font-sans text-xl font-black uppercase leading-tight tracking-tight transition-opacity hover:opacity-60 md:text-2xl lg:text-3xl"
-        style={{ color: INK }}
-      >
-        {p.title}
-        <span aria-hidden="true" className="text-base opacity-40 transition-opacity group-hover:opacity-90">-&gt;</span>
-      </Link>
-    </div>
+    <Link
+      href={p.href}
+      target="_blank"
+      rel="noreferrer"
+      className={`pointer-events-auto group inline-flex items-baseline gap-2 font-sans text-lg font-black uppercase leading-tight tracking-tight transition-opacity hover:opacity-60 md:text-2xl lg:text-3xl ${
+        align === 'right' ? 'flex-row-reverse text-right' : 'text-left'
+      }`}
+      style={{ color: INK }}
+    >
+      {p.title}
+      <span aria-hidden="true" className="text-base opacity-40 transition-opacity group-hover:opacity-90">-&gt;</span>
+    </Link>
   )
 }
 
-export default function DriveFinale({ active }: { active: boolean }) {
-  const featured = useFeatured()
-  const left = featured.slice(0, 3)
-  const right = featured.slice(3)
+function DriveFinale({ onShowAll }: { onShowAll: () => void }) {
+  const left = NOTABLE.slice(0, 3)
+  const right = NOTABLE.slice(3)
+  // reduced-motion has no scrub to drive the fade, so show the menu statically
+  const [reduce, setReduce] = useState(false)
+  useEffect(() => setReduce(window.matchMedia('(prefers-reduced-motion: reduce)').matches), [])
 
   return (
-    <div className="absolute inset-0" style={{ background: GROUND, color: INK }}>
-      {/* huge ghost headline the car sits in front of (Noomo) */}
-      <h2
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-[14%] text-center font-sans font-black uppercase leading-none tracking-tighter"
-        style={{ fontSize: 'clamp(3rem, 15vw, 14rem)', color: INK, opacity: 0.06 }}
-      >
-        Side Projects
-      </h2>
+    <div
+      id="finale-menu"
+      className="pointer-events-none fixed inset-0 z-40"
+      style={{ color: INK, opacity: reduce ? 1 : 0, visibility: reduce ? 'visible' : 'hidden' }}
+    >
+      <div className="absolute inset-x-0 top-[9%] text-center">
+        <p className="font-mono text-[11px] uppercase tracking-[0.3em] opacity-55">The Garage</p>
+        <p className="mt-2 font-sans text-2xl font-black uppercase tracking-tight md:text-3xl">Notable Builds</p>
+      </div>
 
-      {/* soft dark spotlight so the white C63 (floated on top from its shared
-          wrapper) reads against the pale ground */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[70vh] w-[70vh] -translate-x-1/2 -translate-y-1/2"
-        aria-hidden="true"
-        style={{ background: 'radial-gradient(circle, rgba(18,22,48,0.5) 0%, rgba(28,34,68,0.18) 40%, transparent 66%)' }}
-      />
+      <div className="absolute left-[5vw] top-1/2 flex max-w-[38vw] -translate-y-1/2 flex-col gap-5 md:left-[6vw] md:max-w-[26vw]">
+        {left.map((p) => (
+          <ProjectLink key={p.title} p={p} align="left" />
+        ))}
+      </div>
 
-      <div
-        className={`absolute inset-0 flex flex-col items-center px-6 pt-24 pb-16 transition-opacity duration-700 md:pt-28 ${
-          active ? 'opacity-100' : 'opacity-0'
-        } motion-reduce:opacity-100`}
-      >
-        <div className="text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.3em] opacity-55">The Garage</p>
-          <p className="mt-2 font-sans text-2xl font-black uppercase tracking-tight md:text-3xl">Selected Builds</p>
-        </div>
+      <div className="absolute right-[5vw] top-1/2 flex max-w-[38vw] -translate-y-1/2 flex-col items-end gap-5 md:right-[6vw] md:max-w-[26vw]">
+        {right.map((p) => (
+          <ProjectLink key={p.title} p={p} align="right" />
+        ))}
+      </div>
 
-        {/* left links | car gap | right links */}
-        <div className="mt-6 grid w-full max-w-[1240px] flex-1 grid-cols-1 items-center gap-6 md:grid-cols-[1fr_minmax(440px,560px)_1fr]">
-          <div className="order-2 flex flex-col gap-4 md:order-1 md:items-start">
-            {left.map((p) => (
-              <ProjectLink key={p.title} p={p} align="left" />
-            ))}
-          </div>
-          <div className="order-1 md:order-2" aria-hidden="true" />
-          <div className="order-3 flex flex-col gap-4 md:items-end">
-            {right.map((p) => (
-              <ProjectLink key={p.title} p={p} align="right" />
-            ))}
-          </div>
-        </div>
-
-        <a
-          href="#all-side-projects"
-          className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-white outline-offset-2 transition-transform hover:-translate-y-px focus-visible:outline focus-visible:outline-2"
+      <div className="absolute inset-x-0 bottom-[7%] flex justify-center">
+        <button
+          type="button"
+          onClick={onShowAll}
+          className="pointer-events-auto inline-flex items-center gap-2 rounded-full px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-white outline-offset-2 transition-transform hover:-translate-y-px focus-visible:outline focus-visible:outline-2"
           style={{ background: INK, outlineColor: INK }}
         >
-          View all side projects <span aria-hidden="true">v</span>
-        </a>
+          Show all projects <span aria-hidden="true">+</span>
+        </button>
       </div>
     </div>
   )
 }
+
+export default memo(DriveFinale)

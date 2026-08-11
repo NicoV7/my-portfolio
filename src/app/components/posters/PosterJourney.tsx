@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { GithubLogo, LinkedinLogo, EnvelopeSimple, FileArrowDown } from '@phosphor-icons/react'
 import RouteMap from './RouteMap'
 import AllSideProjects from './AllSideProjects'
@@ -23,6 +23,10 @@ const CANVAS_INK = '#1d1611'
 
 export default function PosterJourney() {
   const [active, setActive] = useState(0)
+  const [showAll, setShowAll] = useState(false)
+  // stable so the memo'd DriveFinale doesn't re-render (which would clobber its JS-owned opacity)
+  const openAll = useCallback(() => setShowAll(true), [])
+  const closeAll = useCallback(() => setShowAll(false), [])
 
   useEffect(() => {
     const sections = POSTERS.map((p) => document.getElementById(`frame-${p.key}`)).filter(
@@ -85,8 +89,8 @@ export default function PosterJourney() {
         </div>
       </header>
 
-      <RouteMap />
-      <AllSideProjects />
+      <RouteMap onShowAll={openAll} blurred={showAll} />
+      <AllSideProjects open={showAll} onClose={closeAll} />
 
       {/* slim progress rail: deep-scroll jump nav, restyled for the white canvas */}
       <nav

@@ -26,7 +26,6 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin)
  * so it survives font swaps, image reflow, and every breakpoint.
  */
 
-const CANVAS_PAPER = '#fafaf7'
 const CANVAS_INK = '#1d1611'
 
 type Pt = { x: number; y: number }
@@ -73,7 +72,7 @@ function buildGeometry(nodes: Pt[], w: number, h: number): Geometry {
   return { w, h, nodes, full, segments }
 }
 
-export default function RouteMap() {
+export default function RouteMap({ onShowAll, blurred = false }: { onShowAll: () => void; blurred?: boolean }) {
   const canvasRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
   const routeRef = useRef<HTMLDivElement>(null)
@@ -82,13 +81,15 @@ export default function RouteMap() {
   const segRefs = useRef<(SVGPathElement | null)[]>([])
   const carRef = useRef<HTMLDivElement>(null)
   const carPathRef = useRef<SVGPathElement>(null)
-  const carTweenRef = useRef<gsap.core.Tween | null>(null)
-  const finaleFiredRef = useRef(false)
+  const svgRef = useRef<SVGSVGElement>(null)
+  // 0->1 scroll progress THROUGH the finale zone; the single source of truth for the
+  // finale: AtlasWorld3D scrubs the camera descent + car freeze off it, the roadmap
+  // fades off it, finaleOn derives from it. Reversible: scroll up rewinds everything.
+  const finaleProgressRef = useRef(0)
   const tweensRef = useRef<gsap.core.Tween[]>([])
   const triggersRef = useRef<ScrollTrigger[]>([])
   const [geo, setGeo] = useState<Geometry>({ w: 0, h: 0, nodes: [], full: '', segments: [] })
   const [active, setActive] = useState(0)
-  const [finaleOn, setFinaleOn] = useState(false)
 
   // measure node centers relative to the inner positioning box
   const measure = () => {
@@ -155,19 +156,8 @@ export default function RouteMap() {
 
     if (carRef.current) gsap.set(carRef.current, { xPercent: -50, yPercent: -50 })
 
-    // finale car is pinned to the VIEWPORT centre (position:fixed via the
-    // finaleOn className) so the tall, still-settling page height can't drift
-    // it off; visibility is toggled by an IntersectionObserver on the finale zone.
-
-    // once fired (or reduced-motion), the car LIVES fixed-centred (via the
-    // finaleOn className); a re-measure must clear leftover path transforms,
-    // draw the trail statically, and NOT rebuild the path tween
-    if (reduce || finaleFiredRef.current) {
-      if (carRef.current) {
-        gsap.killTweensOf(carRef.current)
-        gsap.set(carRef.current, { clearProps: 'all' })
-      }
-      setFinaleOn(true)
+    // reduced-motion: draw the whole trail statically, skip the scrubbed car tween
+    if (reduce) {
       segEls.forEach((el) => gsap.set(el, { strokeDashoffset: 0 }))
       return
     }
@@ -188,7 +178,9 @@ export default function RouteMap() {
       if (tw.scrollTrigger) triggersRef.current.push(tw.scrollTrigger)
     })
 
-    if (carRef.current && carPathRef.current && !finaleFiredRef.current) {
+    // the car MotionPath tween stays ALIVE through the whole route so scrolling
+    // back up out of the finale scrubs the car back onto the trail (the zoom-out)
+    if (carRef.current && carPathRef.current) {
       const carTw = gsap.to(carRef.current, {
         ease: 'none',
         motionPath: {
@@ -204,9 +196,56 @@ export default function RouteMap() {
           scrub: 0.75,
         },
       })
-      carTweenRef.current = carTw
       tweensRef.current.push(carTw)
       if (carTw.scrollTrigger) triggersRef.current.push(carTw.scrollTrigger)
+    }
+
+    // finale scrub: created HERE with the other triggers so the shared refresh()
+    // below computes its start/end against the SETTLED layout (a separate effect
+    // went stale after images reflowed the page). One 0->1 progress drives the
+    // camera zoom (finaleProgressRef, read by AtlasWorld3D), the roadmap fade, and
+    // the wrap-around text menu — all reversible (onLeaveBack snaps back to 0).
+    const fin = finaleRef.current
+    if (fin) {
+      const clamp01 = (x: number) => Math.min(1, Math.max(0, x))
+      const applyFinale = (p: number) => {
+        finaleProgressRef.current = p
+        // roadmap fades over the DRIVE-OUT (gone as the car finishes driving off, ~p=0.45)
+        const road = String(1 - clamp01((p - 0.05) / 0.4))
+        if (routeRef.current) routeRef.current.style.opacity = road
+        if (svgRef.current) svgRef.current.style.opacity = road
+        // the wrap-around text menu appears only in the ZOOM stage (not while driving)
+        const menu = document.getElementById('finale-menu')
+        if (menu) {
+          menu.style.visibility = p > 0.46 ? 'visible' : 'hidden'
+          menu.style.opacity = String(clamp01((p - 0.5) / 0.3))
+        }
+      }
+      // a SCRUBBED tween (not raw callbacks): scrub animates the proxy to the clamped
+      // 0/1 even on instant jumps (dot-rail), so the finale always resets on scroll-up
+      // instead of sticking when a boundary callback is skipped
+      const proxy = { p: 0 }
+      const finTw = gsap.to(proxy, {
+        p: 1,
+        ease: 'none',
+        onUpdate: () => applyFinale(proxy.p),
+        scrollTrigger: {
+          trigger: fin,
+          // 'top bottom' = the instant the car reaches node 7 (route bottom hits the
+          // viewport bottom); starting here keeps the car FRAMED at node 7 for the
+          // drive-out instead of letting it drift off-screen before the finale begins
+          start: 'top bottom',
+          end: 'bottom bottom',
+          scrub: 0.5,
+          // scrub covers smooth scrolling; these snap the endpoints on instant jumps
+          // (dot-rail / programmatic) that leap past a boundary without an onUpdate tick
+          onLeaveBack: () => applyFinale(0),
+          // the finale is the terminal state now (nothing follows) — keep the menu shown
+          onLeave: () => applyFinale(1),
+        },
+      })
+      tweensRef.current.push(finTw)
+      if (finTw.scrollTrigger) triggersRef.current.push(finTw.scrollTrigger)
     }
 
     ScrollTrigger.refresh()
@@ -217,49 +256,6 @@ export default function RouteMap() {
       triggersRef.current = []
     }
   }, [geo])
-
-  // auto-zoom on arrival + fixed-car visibility, driven by IntersectionObserver
-  // (fires on ANY scroll incl. programmatic jumps, unlike ScrollTrigger onEnter).
-  // On first real arrival the car detaches from the trail and the camera dollies
-  // in; thereafter the fixed car only shows while the finale zone is on-screen.
-  useLayoutEffect(() => {
-    const fin = finaleRef.current
-    if (!fin) return
-    // FIRE when the finale reaches the centre band (rootMargin, not ratio — the
-    // finale is taller than the viewport so ratio-thresholds never fire cleanly)
-    const fire = new IntersectionObserver(
-      ([e]) => {
-        const car = carRef.current
-        if (!e.isIntersecting || finaleFiredRef.current || !car) return
-        finaleFiredRef.current = true
-        carTweenRef.current?.scrollTrigger?.kill()
-        carTweenRef.current?.kill()
-        gsap.killTweensOf(car)
-        gsap.set(car, { clearProps: 'all' })
-        setFinaleOn(true)
-      },
-      { rootMargin: '-35% 0px -35% 0px', threshold: 0 }
-    )
-    // VISIBILITY: hide the fixed car once the all-projects list (right below the
-    // finale) scrolls into view, so it never floats over the sections below;
-    // also hide if the finale zone itself has fully left upward.
-    const hideCar = (hide: boolean) => {
-      if (finaleFiredRef.current && carRef.current) {
-        gsap.to(carRef.current, { autoAlpha: hide ? 0 : 1, duration: 0.3 })
-      }
-    }
-    const belowList = document.getElementById('all-side-projects')
-    const vis = new IntersectionObserver(([e]) => hideCar(e.isIntersecting), { threshold: 0 })
-    const finGone = new IntersectionObserver(([e]) => { if (!e.isIntersecting) hideCar(true) }, { threshold: 0 })
-    fire.observe(fin)
-    if (belowList) vis.observe(belowList)
-    finGone.observe(fin)
-    return () => {
-      fire.disconnect()
-      vis.disconnect()
-      finGone.disconnect()
-    }
-  }, [])
 
   // active-stop tracking for the node highlight
   useLayoutEffect(() => {
@@ -297,8 +293,9 @@ export default function RouteMap() {
           lightSide rakes the key from the active print's side (shifts L↔R per stop). */}
       <AtlasWorld3D
         trackerRef={carRef}
-        finaleOn={finaleOn}
+        finaleProgressRef={finaleProgressRef}
         lightSide={POSTERS[active]?.layout === 'right' ? 1 : -1}
+        blurred={blurred}
       />
       <div ref={innerRef} className="relative mx-auto w-full max-w-[1200px] px-4">
         {/* header plate: title + metric stamps (marginalia intentionally cut) */}
@@ -327,6 +324,7 @@ export default function RouteMap() {
 
         {/* the measured trail, overlaid on the whole inner column */}
         <svg
+          ref={svgRef}
           className="pointer-events-none absolute inset-0 z-0"
           width={geo.w}
           height={geo.h}
@@ -365,11 +363,7 @@ export default function RouteMap() {
             renders the real C63 there (unprojected onto the 3D ground). */}
         <div
           ref={carRef}
-          className={
-            finaleOn
-              ? 'pointer-events-none fixed left-1/2 top-1/2 z-30 h-[70vw] w-[70vw] max-h-[440px] max-w-[440px] -translate-x-1/2 -translate-y-1/2'
-              : 'pointer-events-none absolute left-0 top-0 z-30 h-24 w-24 md:h-28 md:w-28'
-          }
+          className="pointer-events-none absolute left-0 top-0 z-30 h-24 w-24 md:h-28 md:w-28"
           aria-hidden="true"
         />
 
@@ -409,20 +403,14 @@ export default function RouteMap() {
                 onClick={() => goTo(p.key)}
                 aria-label={`Stop ${i + 1}: ${p.masthead}`}
                 aria-current={i === active ? 'true' : undefined}
-                className={`absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full font-mono text-lg font-bold outline-offset-4 transition-transform duration-300 focus-visible:outline focus-visible:outline-2 ${
+                // invisible: kept as the trail's measurement anchor (measure() reads its
+                // centre) + a keyboard/tap nav hotspot; the visible numbered circle is gone
+                className={`absolute top-1/2 z-20 h-11 w-11 -translate-y-1/2 rounded-full outline-offset-4 focus-visible:outline focus-visible:outline-2 ${
                   nodeSide === 'right' ? 'right-[4vw] md:right-[4%]' : 'left-[4vw] md:left-[4%]'
                 }`}
-                style={{
-                  background: CANVAS_PAPER,
-                  color: CANVAS_INK,
-                  border: `4px solid ${p.theme.accent}`,
-                  outlineColor: p.theme.accent,
-                  transform: `translateY(-50%) scale(${i === active ? 1.15 : 1})`,
-                  boxShadow: '0 4px 14px rgba(90,70,40,0.25)',
-                }}
-              >
-                {i + 1}
-              </button>
+                style={{ outlineColor: p.theme.accent }}
+              />
+
             </section>
           )
         })}
@@ -430,8 +418,9 @@ export default function RouteMap() {
 
         {/* finale zone: the SAME car glides here + zooms; DriveFinale is the
             DOM overlay (the car canvas floats on top from its shared wrapper) */}
-        <section ref={finaleRef} id="drive-finale" className="relative min-h-[100dvh] overflow-hidden">
-          <DriveFinale active={finaleOn} />
+        {/* tall so the two finale stages (drive-out, then zoom) have real scroll room */}
+        <section ref={finaleRef} id="drive-finale" className="relative min-h-[220dvh] overflow-hidden">
+          <DriveFinale onShowAll={onShowAll} />
         </section>
       </div>
     </div>

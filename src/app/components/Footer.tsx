@@ -1,9 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { profile } from '../../data/profile'
 
 export default function Footer() {
+  // the home route is the self-contained atlas (its finale is the terminal); no site footer
+  if (usePathname() === '/') return null
   return (
     <footer className="relative z-10 border-t border-chrome-line">
       <div className="mx-auto grid max-w-[var(--content)] gap-10 px-6 py-16 md:grid-cols-3">
