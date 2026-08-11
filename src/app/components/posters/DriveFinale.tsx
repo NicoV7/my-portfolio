@@ -14,30 +14,32 @@ import Link from 'next/link'
 
 const INK = '#0b0b0f'
 
-type FinaleProject = { title: string; href: string }
+type FinaleProject = { title: string; subtitle: string; href: string }
 
 // notable work, not the side-projects list (that lives in the SHOW ALL overlay)
 const NOTABLE: FinaleProject[] = [
-  { title: 'Yojimbo', href: 'https://yojimbo.site' },
-  { title: 'Personal Harness', href: 'https://github.com/NicoV7/Personal-Harness' },
-  { title: 'Berkeley AI Hackathon', href: 'https://github.com/NicoV7/BerkeleyAIHackathon2026' },
-  { title: 'Debate RPG', href: 'https://github.com/NicoV7/RedditHackathon' },
-  { title: 'YC Hackathon', href: 'https://github.com/NicoV7/GbrainHackathon' },
+  { title: 'Yojimbo', subtitle: 'Autonomous investing', href: 'https://yojimbo.site' },
+  { title: 'Personal Harness', subtitle: 'AI coding harness', href: 'https://github.com/NicoV7/Personal-Harness' },
+  { title: 'Debate RPG', subtitle: 'Berkeley AI Hackathon', href: 'https://github.com/NicoV7/BerkeleyAIHackathon2026' },
+  { title: 'Parlor', subtitle: 'Reddit Games Hackathon', href: 'https://github.com/NicoV7/RedditHackathon' },
+  { title: 'LearnGraph', subtitle: '2nd Place, GStack x Gbrain Hackathon (YCombinator)', href: 'https://github.com/NicoV7/GStackHack' },
 ]
 
 function ProjectLink({ p, align }: { p: FinaleProject; align: 'left' | 'right' }) {
+  const right = align === 'right'
   return (
     <Link
       href={p.href}
       target="_blank"
       rel="noreferrer"
-      className={`pointer-events-auto group inline-flex items-baseline gap-2 font-sans text-lg font-black uppercase leading-tight tracking-tight transition-opacity hover:opacity-60 md:text-2xl lg:text-3xl ${
-        align === 'right' ? 'flex-row-reverse text-right' : 'text-left'
-      }`}
+      className={`pointer-events-auto group flex flex-col transition-opacity hover:opacity-60 ${right ? 'items-end text-right' : 'items-start text-left'}`}
       style={{ color: INK }}
     >
-      {p.title}
-      <span aria-hidden="true" className="text-base opacity-40 transition-opacity group-hover:opacity-90">-&gt;</span>
+      <span className={`inline-flex items-baseline gap-2 font-sans text-lg font-black uppercase leading-tight tracking-tight md:text-2xl lg:text-3xl ${right ? 'flex-row-reverse' : ''}`}>
+        {p.title}
+        <span aria-hidden="true" className="text-base opacity-40 transition-opacity group-hover:opacity-90">-&gt;</span>
+      </span>
+      <span className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] opacity-55 md:text-xs">{p.subtitle}</span>
     </Link>
   )
 }

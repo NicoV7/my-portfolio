@@ -13,10 +13,10 @@ import { POSTERS } from './posterRoute'
  */
 
 const CONTACTS = [
-  { label: 'GitHub', href: 'https://github.com/NicoV7', Icon: GithubLogo, external: true },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/nvegab99', Icon: LinkedinLogo, external: true },
-  { label: 'Email', href: 'mailto:nvegab99@gmail.com', Icon: EnvelopeSimple, external: false },
-  { label: 'Resume (PDF)', href: '/resume.pdf', Icon: FileArrowDown, external: false, download: true },
+  { label: 'GitHub', hint: 'github.com/NicoV7', href: 'https://github.com/NicoV7', Icon: GithubLogo, external: true },
+  { label: 'LinkedIn', hint: 'linkedin.com/in/nvegab99', href: 'https://linkedin.com/in/nvegab99', Icon: LinkedinLogo, external: true },
+  { label: 'Email', hint: 'nvegab99@gmail.com', href: 'mailto:nvegab99@gmail.com', Icon: EnvelopeSimple, external: false },
+  { label: 'Resume (PDF)', hint: 'Download resume.pdf', href: '/resume.pdf', Icon: FileArrowDown, external: false, download: true },
 ]
 
 const CANVAS_INK = '#1d1611'
@@ -70,12 +70,12 @@ export default function PosterJourney() {
             </span>
           </div>
           <nav className="flex items-center gap-1" aria-label="Contact">
-            {CONTACTS.map(({ label, href, Icon, external, download }) => (
+            {CONTACTS.map(({ label, hint, href, Icon, external, download }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
-                title={label}
+                title={hint}
                 target={external ? '_blank' : undefined}
                 rel={external ? 'noreferrer' : undefined}
                 download={download}

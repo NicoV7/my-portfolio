@@ -169,13 +169,6 @@ export const POSTERS: PosterStopData[] = [
     lines: [
       { text: 'FOUNDING ENGINEER', sub: 'browser agents with tool-layer safety, EDI pipelines, voice agents', kind: 'lead' },
       { text: '65 PRS IN 4 WEEKS', kind: 'line' },
-      { text: 'GET IN TOUCH', kind: 'line' },
-    ],
-    features: [
-      { label: 'nvegab99@gmail.com', href: 'mailto:nvegab99@gmail.com' },
-      { label: 'github.com/NicoV7', href: 'https://github.com/NicoV7' },
-      { label: 'linkedin.com/in/nvegab99', href: 'https://linkedin.com/in/nvegab99' },
-      { label: 'Resume (PDF)', href: '/resume.pdf', download: true },
     ],
     layout: 'left',
     art: { bg: '/posters/closing/bg.jpg', car: '/posters/closing/car.jpg' },
