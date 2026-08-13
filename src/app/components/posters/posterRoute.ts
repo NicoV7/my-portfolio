@@ -158,20 +158,4 @@ export const POSTERS: PosterStopData[] = [
     art: { bg: '/posters/rally/bg.jpg', car: '/posters/rally/car.jpg' },
     theme: { paper: '#efe7d6', ink: '#4a4743', accent: '#c1272d' },
   },
-  {
-    key: 'closing',
-    style: 'closing',
-    masthead: 'AMBRA',
-    issue: 'NO. 07 / AMBRA911',
-    role: 'Founding Engineer',
-    year: '2026',
-    link: 'https://ambra911.com',
-    lines: [
-      { text: 'FOUNDING ENGINEER', sub: 'browser agents with tool-layer safety, EDI pipelines, voice agents', kind: 'lead' },
-      { text: '65 PRS IN 4 WEEKS', kind: 'line' },
-    ],
-    layout: 'left',
-    art: { bg: '/posters/closing/bg.jpg', car: '/posters/closing/car.jpg' },
-    theme: { paper: '#e3f1e8', ink: '#123528', accent: '#3f8f74' },
-  },
 ]

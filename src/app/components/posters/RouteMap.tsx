@@ -307,7 +307,7 @@ export default function RouteMap({ onShowAll, blurred = false }: { onShowAll: ()
             THE GRAND TOUR
           </h1>
           <p className="mt-4 font-mono text-[11px] tracking-[0.35em] opacity-70 md:text-xs">
-            ROUTE MAP · SEVEN STOPS, 2022-2026
+            ROUTE MAP · SIX STOPS, 2022-2026
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             {['$10M ATTRIBUTED', '$504K SAVED', '2ND OF 250'].map((m) => (
