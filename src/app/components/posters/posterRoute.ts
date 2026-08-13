@@ -152,6 +152,7 @@ export const POSTERS: PosterStopData[] = [
       { text: '250+ CONCURRENT USERS', sub: 'shipped to production in 21 days, solo founder', kind: 'lead' },
       { text: 'MICROSOFT FOR STARTUPS, WEEK ONE', kind: 'line' },
       { text: 'ARENA AI PILOT ($1.7B)', kind: 'line' },
+      { text: 'FOUNDERS INC', sub: 'Founders Offseason', kind: 'line' },
     ],
     features: ['Go / TypeScript / Python', 'Agents: MCP, RAG, tool design', 'GCP / AWS / Azure', 'Playwright / OWASP / SOC 2'],
     layout: 'right',
